@@ -28,13 +28,11 @@ public class UserController {
             user.setUsername(username);
             user.setPassword(password);
             user.setFriends(new ArrayList<User>());
-            System.out.println("in der Scheife");
             userService.save(user);
             return "redirect:/login";
 
 
         }
-        System.out.println("außerhalb der Scheife");
         return "fail";
     }
     @GetMapping("register")
@@ -63,6 +61,13 @@ public class UserController {
     }
 
     @GetMapping("/home")
+    public String home(Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "home";
+    }
+
+    @PostMapping("/home")
     public String home(Model model){
         return "home";
     }

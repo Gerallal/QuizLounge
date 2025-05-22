@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,6 +54,9 @@
         <li><a href="#" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
         <li><a href="home/friends" style="color:white; text-decoration:none;">Freunde</a></li>
         <li><a href="#" style="color:white; text-decoration:none;">Statistiken</a></li>
+        <br>
+        <br>Eingeloggt als</br>
+        <span th:text="${session.user.username}">[]</span>
     </ul>
 </div>
 
@@ -64,6 +67,8 @@
     <button onclick="console.log('Hier siehst du deine Quizzes!')">Meine Quizzes</button>
     <button onclick="console.log('Hier findest du deine Freunde!')">Freunde</button>
     <button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>
+
+
 </div>
 
 <script>

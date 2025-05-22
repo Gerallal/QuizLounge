@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,9 @@ public class User {
     long id;
     String username;
     String password;
+    @ManyToMany
+    private List<User> friends;
+    @OneToMany
+    private List<FriendRequest> friendRequests;
+
 }
