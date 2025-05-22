@@ -1,4 +1,5 @@
 package de.thb.quizlounge.controller;
+import de.thb.quizlounge.entity.FriendRequest;
 import de.thb.quizlounge.entity.User;
 import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,12 +22,15 @@ public class UserController {
 
     @PostMapping("register")
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String repeatedPassword, Model model){
-        User user = new User();
+
         if(password.equals(repeatedPassword)){
+            User user = new User();
             user.setUsername(username);
             user.setPassword(password);
+            user.setFriends(new ArrayList<User>());
             System.out.println("in der Scheife");
-            return "register";
+            userService.save(user);
+            return "redirect:/login";
 
 
         }
@@ -35,4 +41,48 @@ public class UserController {
     public String register(Model model){
         return "register";
     }
+    @GetMapping("login")
+    public String logIn(Model model){
+        return "login";
+    }
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
+        System.out.println(username);
+        User currentUser = userService.getUserByName(username);
+        if(currentUser == null) {
+            return "login";
+        }
+        if(currentUser.getPassword().equals(password)) {
+            model.addAttribute("user", currentUser);
+
+            session.setAttribute("user", currentUser);
+            return "redirect:/home";
+
+        }
+        return "login";
+    }
+
+    @GetMapping("/home")
+    public String home(Model model){
+        return "home";
+    }
+
+    @GetMapping("/home/friends")
+    public String addFriend(Model model){
+        return "friends";
+    }
+
+    @PostMapping("/home/friends")
+    public String addFriend(@RequestParam String username, Model model, HttpSession session){
+        User receiver = userService.getUserByName(username);
+        User sender = (User) session.getAttribute("user");
+        FriendRequest fq = new FriendRequest();
+        fq.setSender(sender);
+        fq.setAccepted(false);
+
+        receiver.getFriendRequests().add(fq);
+        userService.save(receiver);
+        return "redirect:/home";
+    }
+
 }
