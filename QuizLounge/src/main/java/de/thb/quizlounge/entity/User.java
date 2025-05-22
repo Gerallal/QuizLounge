@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +15,11 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    long id;
-    String username;
-    String password;
+    private long id;
+    private String username;
+    private String password;
+    @ManyToMany
+    private List<User> friends;
+    @OneToMany
+    private List<FriendRequest> friendRequests;
 }
