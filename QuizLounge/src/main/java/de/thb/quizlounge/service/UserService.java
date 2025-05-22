@@ -1,5 +1,6 @@
 package de.thb.quizlounge.service;
 
+import de.thb.quizlounge.entity.User;
 import de.thb.quizlounge.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,11 @@ import java.util.Optional;
 public class UserService{
     private final UserRepository userRepository;
 
+    public Optional<User> getUserById(long id) {
+        return userRepository.findById(id);
+    }
 
-
+    public void save(User user) {
+        userRepository.save(user);
+    }
 }
