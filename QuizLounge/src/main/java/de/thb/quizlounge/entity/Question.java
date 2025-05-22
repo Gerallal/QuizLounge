@@ -5,21 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class Question {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private long id;
-    private String username;
-    private String password;
-    @ManyToMany
-    private List<User> friends;
-    @OneToMany
-    private List<FriendRequest> friendRequests;
+    private String question;
+
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Answer> answers;
 }

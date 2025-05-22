@@ -1,4 +1,5 @@
 package de.thb.quizlounge.controller;
+import de.thb.quizlounge.entity.FriendRequest;
 import de.thb.quizlounge.entity.User;
 import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,6 +27,7 @@ public class UserController {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
+            user.setFriends(new ArrayList<User>());
             System.out.println("in der Scheife");
             userService.save(user);
             return "redirect:/login";
@@ -63,4 +66,23 @@ public class UserController {
     public String home(Model model){
         return "home";
     }
+
+    @GetMapping("/home/friends")
+    public String addFriend(Model model){
+        return "friends";
+    }
+
+    @PostMapping("/home/friends")
+    public String addFriend(@RequestParam String username, Model model, HttpSession session){
+        User receiver = userService.getUserByName(username);
+        User sender = (User) session.getAttribute("user");
+        FriendRequest fq = new FriendRequest();
+        fq.setSender(sender);
+        fq.setAccepted(false);
+
+        receiver.getFriendRequests().add(fq);
+        userService.save(receiver);
+        return "redirect:/home";
+    }
+
 }
