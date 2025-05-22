@@ -1,5 +1,6 @@
 package de.thb.quizlounge.service;
 
+import de.thb.quizlounge.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.persistence.*;
@@ -11,5 +12,8 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService{
+    private final UserRepository userRepository;
+
+
 
 }
