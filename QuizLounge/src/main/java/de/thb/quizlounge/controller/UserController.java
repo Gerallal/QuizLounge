@@ -27,7 +27,7 @@ public class UserController {
             user.setPassword(password);
             System.out.println("in der Scheife");
             userService.save(user);
-            return "register";
+            return "redirect:/login";
 
 
         }
@@ -53,9 +53,14 @@ public class UserController {
             model.addAttribute("user", currentUser);
 
             session.setAttribute("user", currentUser);
-            return "home";
+            return "redirect:/home";
 
         }
         return "login";
+    }
+
+    @GetMapping("/home")
+    public String home(Model model){
+        return "home";
     }
 }
