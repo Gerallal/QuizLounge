@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -39,6 +40,22 @@ public class UserController {
     }
     @GetMapping("login")
     public String logIn(Model model){
+        return "login";
+    }
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
+        System.out.println(username);
+        User currentUser = userService.getUserByName(username);
+        if(currentUser == null) {
+            return "login";
+        }
+        if(currentUser.getPassword().equals(password)) {
+            model.addAttribute("user", currentUser);
+
+            session.setAttribute("user", currentUser);
+            return "home";
+
+        }
         return "login";
     }
 }
