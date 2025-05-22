@@ -2,26 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quiz</title>
+    <title>addQuiz</title>
 </head>
 <body>
     <div>
         <input>Titel</input>
         <input>Beschreibung</input>
-        <button>Frage hinzufügen</button>
-        <div>
-            <input>Gebe die Frage ein</input>
-            <input id="1" class="optional-Answers" name="optionalAnswer1">Antwort</input>
-            <input id="2" class="optional-Answers" name="optionalAnswer1">Antwort</input>
-            <input id="3" class="optional-Answers" name="optionalAnswer1">Antwort</input>
-            <input id="4" class="optional-Answers" name="optionalAnswer1">Antwort</input>
-            <p>Wähle die richtige Antwort aus</p>
-            <input type="checkbox" name="Antwort 1">Antwort 1</input>
-            <input type="checkbox" name="Antwort 2">Antwort 2</input>
-            <input type="checkbox" name="Antwort 3">Antwort 3</input>
-            <input type="checkbox" name="Antwort 4">Antwort 4</input>
-            <button type="submit">Hinzufügen</button>
-        </div>
+        <form action="/addQuiz/addQuestion" method="post">
+            <input type="hidden" name="addQuestion" value="true" />
+            <button type="submit">Frage hinzufügen</button>
+        </form>
+
     </div>
 </body>
 </html>
