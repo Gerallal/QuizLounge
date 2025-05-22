@@ -1,4 +1,4 @@
 package de.thb.quizlounge.repository;
 
-public class QuizRepository {
+public interface QuizRepository {
 }
