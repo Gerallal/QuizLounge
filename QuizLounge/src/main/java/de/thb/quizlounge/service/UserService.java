@@ -15,11 +15,19 @@ import java.util.Optional;
 public class UserService{
     private final UserRepository userRepository;
 
-    public Optional<User> getUserById(long id) {
+    public void save(User user){
+        userRepository.save(user);
+    }
+
+    public Optional<User> getUserById(long id){
         return userRepository.findById(id);
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User getUserByName(String name){
+        return userRepository.findByUsername(name);
+
     }
+
+
+
 }
