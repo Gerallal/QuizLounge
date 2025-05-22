@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/QuizLounge.iml" filepath="$PROJECT_DIR$/.idea/QuizLounge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QuizLounge/QuizLounge.iml" filepath="$PROJECT_DIR$/QuizLounge/QuizLounge.iml" />
     </modules>
   </component>
 </project>
