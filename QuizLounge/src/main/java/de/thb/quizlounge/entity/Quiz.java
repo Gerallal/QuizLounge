@@ -17,9 +17,12 @@ public class Quiz {
     private long id;
     private String title;
     private String description;
-    private String author;
+    //private String author;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @ManyToOne
+    private User author; //sollte am besten automatisch eingefügt werden, je nach User
+
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER)
     private List<Question> questions;
 
 

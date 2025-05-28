@@ -59,8 +59,13 @@
 
 <div id="main">
     <button id="toggleSidebar">☰ Menü</button>
+
     <h1>Willkommen auf deiner Quiz Homepage</h1>
-    <button onclick="console.log('Quiz erstellen kommt bald!')">Quiz erstellen</button>
+    <form action="/quizzes/create_quiz" method="get" style="display:inline;">
+        <button type="submit">Quiz erstellen</button>
+    </form>
+
+    <!-- <button onclick="console.log('Quiz erstellen kommt bald!')">Quiz erstellen</button> -->
     <button onclick="console.log('Hier siehst du deine Quizzes!')">Meine Quizzes</button>
     <button onclick="console.log('Hier findest du deine Freunde!')">Freunde</button>
     <button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>

@@ -1,9 +1,7 @@
 package de.thb.quizlounge.service;
 
 import de.thb.quizlounge.entity.Question;
-import de.thb.quizlounge.entity.User;
 import de.thb.quizlounge.repository.QuestionRepository;
-import de.thb.quizlounge.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

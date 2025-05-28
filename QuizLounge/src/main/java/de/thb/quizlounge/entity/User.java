@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,8 +17,15 @@ public class User {
     private long id;
     private String username;
     private String password;
+
     @ManyToMany
     private List<User> friends;
+
     @OneToMany
     private List<FriendRequest> friendRequests;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Quiz> quizzes; //muss noch für alle classen angepasst werden
+
+
 }

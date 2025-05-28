@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz bearbeiten</title>
+</head>
+<body>
+<h1>Quiz bearbeiten</h1>
+
+<form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" th:object="${quiz}" method="post">
+  <label for="title">Titel:</label>
+  <input type="text" id="title" th:field="*{title}" required/><br><br>
+
+  <label for="description">Beschreibung:</label>
+  <textarea id="description" th:field="*{description}"></textarea><br><br>
+
+  <button type="submit">Speichern</button>
+  <!-- author kann nicht verändert werden -->
+</form>
+</body>
+</html>

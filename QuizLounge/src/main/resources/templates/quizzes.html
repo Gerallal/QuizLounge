@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>addQuiz</title>
+    <title>quizzes</title>
 </head>
 <body>
-    <div>
-        <input>Titel</input>
-        <input>Beschreibung</input>
-        <form action="/addQuiz/addQuestion" method="post">
-            <input type="hidden" name="addQuestion" value="true" />
-            <button type="submit">Frage hinzufügen</button>
-        </form>
+    <h1>Meine quizzes im Überblick:</h1>
+    <form action="/quizzes/create" method="get">
+        <button type="submit">+ Neues Quiz erstellen</button>
+    </form>
 
-    </div>
+    <ul>
+        <li th:each="quiz : ${quizzes}">
+            <a th:href="@{/quizzes/{id}(id=${quiz.id})}"
+               th:text="${quiz.title}"></a>
+
+            <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" method="get" style="display:inline;">
+                <button type="submit">Bearbeiten</button>
+            </form>
+
+            <form th:action="@{/quizzes/delete/{id}(id=${quiz.id})}" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit" onclick="return confirm('Wirklich löschen?')">Löschen</button>
+            </form>
+        </li>
+    </ul>
+    <a th:href="@{/home}">back</a>
 </body>
 </html>
