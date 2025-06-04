@@ -45,7 +45,7 @@ public class QuestionController {
         Question question = questionService.getQuestionById(questionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("question", question);
-        return "edit_question"; // Neue HTML-Seite
+        return "edit_question";
     }
 
     @PostMapping("/edit/{questionId}")

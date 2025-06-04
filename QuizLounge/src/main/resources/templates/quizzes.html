@@ -5,7 +5,7 @@
     <title>quizzes</title>
 </head>
 <body>
-    <h1>Meine quizzes im Überblick:</h1>
+    <h1>Quizzes im Überblick:</h1>
     <form action="/quizzes/create" method="get">
         <button type="submit">+ Neues Quiz erstellen</button>
     </form>
@@ -16,7 +16,7 @@
                th:text="${quiz.title}"></a>
 
             <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" method="get" style="display:inline;">
-                <button type="submit">Bearbeiten</button>
+                <button type="submit">bearbeiten</button>
             </form>
 
             <form th:action="@{/quizzes/delete/{id}(id=${quiz.id})}" method="post" style="display:inline;">
@@ -25,6 +25,6 @@
             </form>
         </li>
     </ul>
-    <a th:href="@{/home}">back</a>
+    <a th:href="@{/home}">zurück</a>
 </body>
 </html>

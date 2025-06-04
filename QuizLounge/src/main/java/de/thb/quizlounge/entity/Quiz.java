@@ -20,10 +20,15 @@ public class Quiz {
     //private String author;
 
     @ManyToOne
-    private User author; //sollte am besten automatisch eingefügt werden, je nach User
+    @JoinColumn(name = "author_id") // Optional: explizite Spalte
+    private User author;
 
-    @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
+    private List<Attempt> attempts;
+
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
     private List<Question> questions;
+
 
 
 }

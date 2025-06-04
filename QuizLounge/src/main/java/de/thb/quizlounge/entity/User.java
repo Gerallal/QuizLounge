@@ -21,11 +21,10 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<FriendRequest> friendRequests;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Quiz> quizzes; //muss noch für alle classen angepasst werden
-
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    private List<Quiz> quizzes;
 
 }

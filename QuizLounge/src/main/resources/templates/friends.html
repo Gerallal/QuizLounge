@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Freunde</title>
 </head>
 <body>
-<form action="" method="post">
-    <br>Freund hinzufügen:<br>
-    <input type="text" name="username"> <br>
-
-    </p>
-</form>
+    <form action="/friends/add" method="post">
+        <label>Freund hinzufügen:</label><br>
+        <input type="text" name="username" required><br>
+        <button type="submit">Hinzufügen</button>
+    </form>
 </body>
 </html>

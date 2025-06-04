@@ -51,9 +51,12 @@
     <h2>Menü</h2>
     <ul>
         <li><a href="#" style="color:white; text-decoration:none;">Startseite</a></li>
-        <li><a href="#" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
+        <li><a href="/quizzes/my" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
         <li><a href="home/friends" style="color:white; text-decoration:none;">Freunde</a></li>
         <li><a href="#" style="color:white; text-decoration:none;">Statistiken</a></li>
+        <br>
+        <br>Eingeloggt als</br>
+        <span th:text="${session.user.username}">[]</span>
     </ul>
 </div>
 
@@ -61,7 +64,7 @@
     <button id="toggleSidebar">☰ Menü</button>
 
     <h1>Willkommen auf deiner Quiz Homepage</h1>
-    <form action="/quizzes/create_quiz" method="get" style="display:inline;">
+    <form action="/quizzes/create" method="get" style="display:inline;">
         <button type="submit">Quiz erstellen</button>
     </form>
 

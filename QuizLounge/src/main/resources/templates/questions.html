@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Questions</title>
+  <title>Fragen</title>
 </head>
 <body>
   <h1 th:text="${quiz.title}"></h1>
@@ -19,12 +19,12 @@
 
         <!-- Bearbeiten-Button -->
         <form th:action="@{/questions/edit/{questionId}(questionId=${question.id})}" method="get">
-          <button type="submit">edit</button>
+          <button type="submit">bearbeiten</button>
         </form>
 
         <!-- Löschen-Button -->
         <form th:action="@{/questions/delete/{questionId}(questionId=${question.id})}" method="post">
-          <button type="submit">delete</button>
+          <button type="submit">löschen</button>
         </form>
 
       </div>
@@ -54,6 +54,6 @@
     <button type="submit">Frage hinzufügen</button>
   </form>
 
-  <a th:href="@{/quizzes}">back</a>
+  <a th:href="@{/quizzes}">zurück</a>
 </body>
 </html>

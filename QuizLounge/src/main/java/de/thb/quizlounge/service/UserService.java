@@ -21,10 +21,11 @@ public class UserService{
         return userRepository.findById(id);
     }
 
-    public User getUserByName(String name){
-        return userRepository.findByUsername(name);
-
+    public User getUserByName(String name) {
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
     }
+
 
 
 
