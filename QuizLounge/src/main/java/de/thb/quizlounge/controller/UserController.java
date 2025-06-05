@@ -183,8 +183,12 @@ public class UserController {
         System.out.println(username);
         User victim = userService.getUserByName(username);
         Quiz quiz = quizService.getQuizById(id).orElse(null);
-        victim.getQuizes().add(quiz);
-        userService.save(victim);
+        if(!victim.getQuizes().contains(quiz)) {
+            victim.getQuizes().add(quiz);
+            userService.save(victim);
+        } else return "fail";
+
+
 
 
 
