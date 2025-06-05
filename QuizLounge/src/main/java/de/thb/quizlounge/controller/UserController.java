@@ -1,6 +1,8 @@
 package de.thb.quizlounge.controller;
 import de.thb.quizlounge.entity.FriendRequest;
+import de.thb.quizlounge.entity.Quiz;
 import de.thb.quizlounge.entity.User;
+import de.thb.quizlounge.service.QuizService;
 import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,11 +16,13 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final QuizService quizService;
 
     @PostMapping("register")
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String repeatedPassword, Model model){
@@ -148,6 +152,43 @@ public class UserController {
     public String declineRequest(@RequestParam Long requestId){
         userService.deleteRequestById(requestId);
         return "redirect:/home/friends";
+
+    }
+    @GetMapping("/quizzes/send/{id}")
+    public String send(@PathVariable Long id, Model model, HttpSession session) {
+
+        User currentUser = (User) session.getAttribute("user");
+        User newUser = userService.getUserByName(currentUser.getUsername());
+        List <User> friends = newUser.getFriends();
+        model.addAttribute("friends", friends);
+        model.addAttribute("quizId", id);
+        return "send";
+
+    }
+
+ /*   @GetMapping("/quizzes/transmit/{id}")
+    public String sendQuiz(@PathVariable Long id, @RequestParam String username, Model model, HttpSession session) {
+        if(username == null){
+            return "fail";
+        }
+
+
+    }*/
+    @PostMapping("/quizzes/transmit/{id}")
+    public String transmitQuiz(
+            @PathVariable Long id,
+            @RequestParam String username,  // Pflichtfeld
+            Model model) {
+        // Logik...
+        System.out.println(username);
+        User victim = userService.getUserByName(username);
+        Quiz quiz = quizService.getQuizById(id).orElse(null);
+        victim.getQuizes().add(quiz);
+        userService.save(victim);
+
+
+
+        return "redirect:/home";
     }
 
 }

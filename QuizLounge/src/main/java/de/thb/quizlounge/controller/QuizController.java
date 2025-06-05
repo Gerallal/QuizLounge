@@ -2,7 +2,9 @@ package de.thb.quizlounge.controller;
 
 import de.thb.quizlounge.entity.Quiz;
 import de.thb.quizlounge.entity.User;
+import de.thb.quizlounge.repository.UserRepository;
 import de.thb.quizlounge.service.QuizService;
+import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import java.util.List;
 @RequestMapping("/quizzes")
 public class QuizController {
     private final QuizService quizService;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("")
     public String showQuizzes(Model model) {
@@ -105,5 +109,20 @@ public class QuizController {
 
         return "my_quizzes"; // Name deiner Thymeleaf-View-Datei
     }
+
+    @GetMapping("/ql")
+    public String getQuizzes(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user"); // oder SecurityContext, falls du Spring Security nutzt
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        user = userService.getUserByName(user.getUsername());
+        List<Quiz> quizzes = user.getQuizes();
+        model.addAttribute("quizzes", quizzes);
+
+        return "ql"; // Name deiner Thymeleaf-View-Datei
+    }
+
 
 }
