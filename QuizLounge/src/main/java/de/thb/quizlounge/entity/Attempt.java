@@ -21,7 +21,7 @@ public class Attempt implements Comparable{
     private long id;
     @OneToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Quiz quiz;
     private int numberOfRightAnswers;
     private LocalDateTime startTime;
