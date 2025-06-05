@@ -15,6 +15,7 @@ import java.util.ArrayList;
 @Entity
 public class FriendRequest{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

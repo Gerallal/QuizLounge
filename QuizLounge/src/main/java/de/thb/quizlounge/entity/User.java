@@ -20,7 +20,7 @@ public class User {
     String password;
     @ManyToMany
     private List<User> friends;
-    @OneToMany
-    private List<FriendRequest> friendRequests = new ArrayList<>();
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private List<FriendRequest> friendRequests;
 
 }

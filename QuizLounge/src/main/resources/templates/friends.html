@@ -22,16 +22,16 @@
 
 <h2>Freundesanfragen:</h2>
 <ul>
-    <th:block th:each="request : ${requests}">
-        <th:block th:if="${!request.accepted}">
+    <th:block th:each="request : ${friendRequests}">
+        <th:block th:if="${!request.isAccepted()}">
             <li>
-                Anfrage von <span th:text="${request.sender.username}"></span>
+                Anfrage von <span th:text="${request.getSender().getUsername()}"></span>
                 <form method="post" action="/home/friends/accept">
-                    <input type="hidden" name="requestId" th:value="${request.id}" />
+                    <input type="hidden" name="requestId" th:value="${request.getId()}" />
                     <button type="submit">Akzeptieren</button>
                 </form>
                 <form method="post" action="/home/friends/decline">
-                    <input type="hidden" name="requestId" th:value="${request.id}" />
+                    <input type="hidden" name="requestId" th:value="${request.getId()}" />
                     <button type="submit">Ablehnen</button>
                 </form>
             </li>

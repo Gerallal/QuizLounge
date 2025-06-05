@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @PostMapping("/home/friends")
-    public String sendFriendRequest(@RequestParam String username, HttpSession session){
+    public String sendFriendRequest(@RequestParam String username, Model model, HttpSession session){
         User sender = (User) session.getAttribute("user");
         User receiver = userService.getUserByName(username);
 
@@ -88,7 +88,10 @@ public class UserController {
             friendRequest.setReceiver(receiver);
             friendRequest.setAccepted(false);
             userService.saveRequest(friendRequest);
+            userService.save(receiver);
         }
+
+        model.addAttribute("friendRequests", sender.getFriendRequests());
 
         return "redirect:/home/friends";
     }
@@ -101,6 +104,10 @@ public class UserController {
 
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
+
+        if(sender.getFriends().contains(receiver)){
+            return "fail";
+        }
 
         sender.getFriends().add(receiver);
         receiver.getFriends().add(sender);
