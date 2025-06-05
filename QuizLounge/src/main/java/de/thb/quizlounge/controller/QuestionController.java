@@ -57,7 +57,5 @@ public class QuestionController {
 
         return "redirect:/quizzes/my/" + fullQuestion.getQuiz().getId();
     }
-
-
-
+    
 }
