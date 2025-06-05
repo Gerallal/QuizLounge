@@ -48,7 +48,9 @@
 </head>
 <body>
 <div id="sidebar">
-    <h2>Menü</h2>
+    <br>
+    <br>
+    <br>
     <ul>
         <li><a href="#" style="color:white; text-decoration:none;">Startseite</a></li>
         <li><a href="/quizzes/my" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
@@ -56,7 +58,7 @@
         <li><a href="#" style="color:white; text-decoration:none;">Statistiken</a></li>
         <br>
         <br>Eingeloggt als</br>
-        <span th:text="${session.user.username}">[]</span>
+        <span th:text="${user.username}">[]</span>
     </ul>
 </div>
 
