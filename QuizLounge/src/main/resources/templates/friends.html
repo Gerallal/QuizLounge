@@ -10,11 +10,13 @@
 <h2>Meine Freunde:</h2>
 <ul>
     <th:block th:each="friend : ${friends}">
-        <li th:text="${friend.username}"></li>
-        <form th:action="@{/home/friends/remove/{id}(id=${friend.id})}" method="post" style="display:inline;">
-            <input type="hidden" name="_method" value="remove"/>
-            <button type="submit">Entfernen</button>
-        </form>
+        <div>
+            <form th:action="@{/home/friends/remove/{id}(id=${friend.id})}" method="post" style="display:inline;">
+                <li th:text="${friend.username}"></li>
+                <input type="hidden" name="_method" value="remove"/>
+                <button type="submit">Entfernen</button>
+            </form>
+        </div>
     </th:block>
 </ul>
 
@@ -42,5 +44,6 @@
         </th:block>
     </th:block>
 </ul>
+<a th:href="@{/login}">Anmelden</a>
 </body>
 </html>
