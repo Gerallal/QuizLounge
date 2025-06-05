@@ -36,7 +36,7 @@ public class QuizController {
     }
 
     @GetMapping("/{id}")
-    public String showQuizzesDetails(@PathVariable("id") long id,
+    public String showQuizDetailsPublic(@PathVariable("id") long id,
                                       Model model) {
         Quiz quiz = quizService.getQuizById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -44,6 +44,17 @@ public class QuizController {
         model.addAttribute("quiz", quiz);
 
         return "questions";
+    }
+
+    @GetMapping("/my/{id}")
+    public String showQuizDetailsPrivate(@PathVariable("id") long id,
+                                     Model model) {
+        Quiz quiz = quizService.getQuizById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        model.addAttribute("quiz", quiz);
+
+        return "my_questions";
     }
 
     @PostMapping("/create")
@@ -56,14 +67,14 @@ public class QuizController {
 
         quiz.setAuthor(currentUser);
         quizService.saveQuiz(quiz);
-        return "redirect:/quizzes";
+        return "redirect:/quizzes/my";
     }
 
 
     @PostMapping("/delete/{id}")
     public String deleteQuiz(@PathVariable long id) {
         quizService.deleteQuizById(id);
-        return "redirect:/quizzes";
+        return "redirect:/quizzes/my";
     }
 
     // Zeigt das Bearbeitungsformular
@@ -78,7 +89,7 @@ public class QuizController {
     @PostMapping("/edit/{id}")
     public String updateQuiz(@PathVariable long id, @ModelAttribute Quiz quiz) {
         quizService.updateQuiz(id, quiz);
-        return "redirect:/quizzes";
+        return "redirect:/quizzes/my";
     }
 
     @GetMapping("/my")

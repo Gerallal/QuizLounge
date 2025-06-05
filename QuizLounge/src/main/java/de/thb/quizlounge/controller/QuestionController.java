@@ -30,14 +30,14 @@ public class QuestionController {
         question.setRightAnswer(rightAnswer);
         question.setQuiz(quiz);
         questionService.save(question);
-        return "redirect:/quizzes/" + quizId;
+        return "redirect:/quizzes/my/" + quizId;
     }
 
     @PostMapping("/delete/{questionId}")
     public String deleteQuestion(@PathVariable long questionId) {
         Question question = questionService.getQuestionById(questionId).orElseThrow();
         questionService.deleteQuestionById(questionId);
-        return "redirect:/quizzes/" + question.getQuiz().getId();
+        return "redirect:/quizzes/my/" + question.getQuiz().getId();
     }
 
     @GetMapping("/edit/{questionId}")
@@ -55,7 +55,7 @@ public class QuestionController {
 
         questionService.updateQuestion(questionId, question);
 
-        return "redirect:/quizzes/" + fullQuestion.getQuiz().getId();
+        return "redirect:/quizzes/my/" + fullQuestion.getQuiz().getId();
     }
 
 
