@@ -95,7 +95,7 @@ public class UserController {
         User sender = (User) session.getAttribute("user");
         User receiver = userService.getUserByName(username);
 
-        if (receiver != null && !sender.equals(receiver)){
+        if (receiver != null && !sender.equals(receiver) && !(sender.getUsername().equals(username))){
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.setSender(sender);
             friendRequest.setReceiver(receiver);
