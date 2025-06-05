@@ -39,26 +39,29 @@ public class UserController {
     public String register(Model model){
         return "register";
     }
+
     @GetMapping("login")
     public String logIn(Model model){
         return "login";
     }
+
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
-        System.out.println(username);
         User currentUser = userService.getUserByName(username);
         if(currentUser == null) {
             return "login";
         }
+
         if(currentUser.getPassword().equals(password)) {
             model.addAttribute("user", currentUser);
-
             session.setAttribute("user", currentUser);
+            session.setAttribute("userId", currentUser.getId()); // ✅ HINZUGEFÜGT!
             return "redirect:/home";
-
         }
+
         return "login";
     }
+
 
     @GetMapping("/home")
     public String home(Model model, HttpSession session){
@@ -108,6 +111,15 @@ public class UserController {
 
         return "redirect:/home/friends";
     }
+
+    @PostMapping("/home/friends/remove/{id}")
+    public String removeFriend(@PathVariable("id") long friendId, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId"); // z. B. bei Login gesetzt
+
+        userService.deleteFriend(userId, friendId);
+        return "redirect:/home/friends";
+    }
+
 
     @PostMapping("/home/friends/accept")
     public String acceptFriendRequest(@RequestParam Long requestId, HttpSession session){
