@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,6 +21,6 @@ public class User {
     @ManyToMany
     private List<User> friends;
     @OneToMany
-    private List<FriendRequest> friendRequests;
+    private List<FriendRequest> friendRequests = new ArrayList<>();
 
 }

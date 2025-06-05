@@ -20,6 +20,11 @@ public class FriendRequest{
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
     private boolean accepted;
 
 
