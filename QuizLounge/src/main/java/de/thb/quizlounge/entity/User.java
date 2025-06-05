@@ -22,4 +22,7 @@ public class User {
     private List<User> friends;
     @OneToMany
     private List<FriendRequest> friendRequests;
+
+    @OneToMany
+    private List<Quiz> quizes;
 }
