@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Fragen</title>
+</head>
+<body>
+  <h1 th:text="${quiz.title}"></h1>
+  <h3 th:text="${quiz.description}"></h3>
+  <ul style="list-style-type: disc;">
+    <li th:each="question : ${quiz.questions}">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span th:text="${question.questionname}"></span>
+        <span th:text="${question.answer1}"></span>
+        <span th:text="${question.answer2}"></span>
+        <span th:text="${question.answer3}"></span>
+        <span th:text="${question.answer4}"></span>
+
+      </div>
+    </li>
+
+  </ul>
+
+  <a th:href="@{/quizzes}">zurück</a>
+</body>
+</html>

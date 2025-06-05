@@ -28,13 +28,11 @@ public class UserController {
             user.setUsername(username);
             user.setPassword(password);
             user.setFriends(new ArrayList<User>());
-            System.out.println("in der Scheife");
             userService.save(user);
             return "redirect:/login";
 
 
         }
-        System.out.println("außerhalb der Scheife");
         return "fail";
     }
     @GetMapping("register")
@@ -63,26 +61,81 @@ public class UserController {
     }
 
     @GetMapping("/home")
+    public String home(Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "home";
+    }
+
+    @PostMapping("/home")
     public String home(Model model){
         return "home";
     }
 
     @GetMapping("/home/friends")
-    public String addFriend(Model model){
+    public String showFriends(Model model, HttpSession session){
+        User currentUser = (User) session.getAttribute("user");
+
+        // Optional: neu aus DB laden, damit Session aktiv ist
+        User managedUser = userService.getUserById(currentUser.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<FriendRequest> friendRequests = userService.getFriendRequestsByUser(managedUser);
+        List<User> friends = managedUser.getFriends(); // jetzt funktioniert LAZY Loading
+
+        model.addAttribute("user", managedUser);
+        model.addAttribute("friendRequests", friendRequests);
+        model.addAttribute("friends", friends);
+
         return "friends";
     }
 
     @PostMapping("/home/friends")
-    public String addFriend(@RequestParam String username, Model model, HttpSession session){
-        User receiver = userService.getUserByName(username);
+    public String sendFriendRequest(@RequestParam String username, Model model, HttpSession session){
         User sender = (User) session.getAttribute("user");
-        FriendRequest fq = new FriendRequest();
-        fq.setSender(sender);
-        fq.setAccepted(false);
+        User receiver = userService.getUserByName(username);
 
-        receiver.getFriendRequests().add(fq);
+        if (receiver != null && !sender.equals(receiver)){
+            FriendRequest friendRequest = new FriendRequest();
+            friendRequest.setSender(sender);
+            friendRequest.setReceiver(receiver);
+            friendRequest.setAccepted(false);
+            userService.saveRequest(friendRequest);
+            userService.save(receiver);
+        }
+
+        model.addAttribute("friendRequests", sender.getFriendRequests());
+
+        return "redirect:/home/friends";
+    }
+
+    @PostMapping("/home/friends/accept")
+    public String acceptFriendRequest(@RequestParam Long requestId, HttpSession session){
+        FriendRequest friendRequest = userService.getRequestById(requestId)
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+        // friendRequest.setAccepted(true);
+
+        User sender = friendRequest.getSender();
+        User receiver = friendRequest.getReceiver();
+
+        if(sender.getFriends().contains(receiver)){
+            return "fail";
+        }
+
+        sender.getFriends().add(receiver);
+        receiver.getFriends().add(sender);
+
+        userService.save(sender);
         userService.save(receiver);
-        return "redirect:/home";
+        userService.deleteFriendRequest(friendRequest);
+
+        return "redirect:/home/friends";
+    }
+
+    @PostMapping("/home/friends/decline")
+    public String declineRequest(@RequestParam Long requestId){
+        userService.deleteRequestById(requestId);
+        return "redirect:/home/friends";
     }
 
 }

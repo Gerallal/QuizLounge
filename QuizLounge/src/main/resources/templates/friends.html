@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <title>Freunde</title>
 </head>
 <body>
-<form action="" method="post">
-    <br>Freund hinzufügen:<br>
-    <input type="text" name="username"> <br>
+<h1>Freunde</h1>
 
-    </p>
+<h2>Meine Freunde:</h2>
+<ul>
+    <th:block th:each="friend : ${friends}">
+        <li th:text="${friend.username}"></li>
+    </th:block>
+</ul>
+
+<h2>Freund hinzufügen:</h2>
+<form method="post" action="/home/friends">
+    <input type="text" name="username" placeholder="Nutzername eingeben">
+    <button type="submit">Anfrage senden</button>
 </form>
+
+<h2>Freundesanfragen:</h2>
+<ul>
+    <th:block th:each="request : ${friendRequests}">
+        <th:block th:if="${!request.isAccepted()}">
+            <li>
+                Anfrage von <span th:text="${request.getSender().getUsername()}"></span>
+                <form method="post" action="/home/friends/accept">
+                    <input type="hidden" name="requestId" th:value="${request.getId()}" />
+                    <button type="submit">Akzeptieren</button>
+                </form>
+                <form method="post" action="/home/friends/decline">
+                    <input type="hidden" name="requestId" th:value="${request.getId()}" />
+                    <button type="submit">Ablehnen</button>
+                </form>
+            </li>
+        </th:block>
+    </th:block>
+</ul>
 </body>
 </html>
