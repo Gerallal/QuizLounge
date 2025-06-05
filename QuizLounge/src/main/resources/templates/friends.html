@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Freunde</title>
@@ -11,6 +11,10 @@
 <ul>
     <th:block th:each="friend : ${friends}">
         <li th:text="${friend.username}"></li>
+        <form th:action="@{/home/friends/remove/{id}(id=${friend.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="remove"/>
+            <button type="submit">Entfernen</button>
+        </form>
     </th:block>
 </ul>
 

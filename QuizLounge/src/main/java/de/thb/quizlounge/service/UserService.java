@@ -6,6 +6,8 @@ import de.thb.quizlounge.repository.FriendRequestRepository;
 import de.thb.quizlounge.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 
 import java.util.Optional;
@@ -56,8 +58,18 @@ public class UserService{
 
     public void declineFriendRequest(FriendRequest friendRequest){ friendRequestRepository.delete(friendRequest); }
 
+    @Transactional
+    public void deleteFriend(Long userId, Long friendId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        User friend = userRepository.findById(friendId).orElseThrow();
 
+        // Entferne Freundschaft in beide Richtungen
+        user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
 
+        userRepository.save(user);
+        userRepository.save(friend);
+    }
 
 
 }
