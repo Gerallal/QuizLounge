@@ -20,6 +20,9 @@ public class User {
     private String password;
     @ManyToMany
     private List<User> friends;
-    @OneToMany
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendRequest> friendRequests;
+
+    @OneToMany
+    private List<Quiz> quizes;
 }

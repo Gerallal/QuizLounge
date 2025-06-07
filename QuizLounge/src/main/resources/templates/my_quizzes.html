@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Meine Quizzes</title>
+</head>
+<body>
+  <h1>Meine Quizzes</h1>
+
+  <form action="/quizzes/create" method="get">
+    <button type="submit">+ Neues Quiz erstellen</button>
+  </form>
+
+  <ul>
+    <li th:each="quiz : ${quizzes}">
+      <a th:href="@{'/quizzes/my/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
+      <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" method="get" style="display:inline;">
+        <button type="submit">bearbeiten</button>
+      </form>
+      <form th:action="@{/quizzes/send/{id}(id=${quiz.id})}" method="get" style="display:inline;">
+        <button type="submit">an Freunde senden</button>
+      </form>
+
+      <form th:action="@{/quizzes/delete/{id}(id=${quiz.id})}" method="post" style="display:inline;">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit" onclick="return confirm('Wirklich löschen?')">Löschen</button>
+      </form>
+    </li>
+  </ul>
+  <a th:href="@{/home}">zurück</a>
+</body>
+</html>

@@ -7,14 +7,15 @@
 <body>
     <form action="" method="post">
         <br>Benutzername:<br>
-        <input type="text" name="username"> <br>
-        Passwort:<br>
+        <input type="text" name="username">
+        <br>Passwort:<br>
         <input type="text" name="password">
-        <br>
+        <br>Passwort erneut eingeben:<br>
         <input type="text" name="repeatedPassword">
         <br>
         <input type="submit">
         </p>
     </form>
+    <a th:href="@{/login}">anmelden</a>
 </body>
 </html>

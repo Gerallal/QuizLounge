@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>quizzes</title>
+</head>
+<body>
+    <h1>Quizzes im Überblick:</h1>
+
+    <ul>
+        <li th:each="quiz : ${quizzes}">
+            <a th:href="@{/quizzes/{id}(id=${quiz.id})}"
+               th:text="${quiz.title}"></a>
+            <span> von <b th:text="${quiz.author.username}">erstellt von: </b></span>
+        </li>
+    </ul>
+    <a th:href="@{/home}">zurück</a>
+</body>
+</html>

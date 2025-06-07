@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
 
         #sidebar {
             width: 250px;
-            background-color: #333;
+            background-color: mediumpurple;
             color: white;
             height: 100vh;
             padding: 20px;
@@ -48,22 +48,39 @@
 </head>
 <body>
 <div id="sidebar">
-    <h2>Menü</h2>
+    <br>
+    <br>
+    <br>
     <ul>
         <li><a href="#" style="color:white; text-decoration:none;">Startseite</a></li>
-        <li><a href="#" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
+        <li><a href="/quizzes/my" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
+        <li><a href="/quizzes/ql" style="color:white; text-decoration:none;">QUIZ LÖSEN!</a></li>
         <li><a href="home/friends" style="color:white; text-decoration:none;">Freunde</a></li>
         <li><a href="#" style="color:white; text-decoration:none;">Statistiken</a></li>
+        <br>
+        <br>Eingeloggt als</br>
+        <span th:text="${user.username}">[]</span>
     </ul>
 </div>
 
 <div id="main">
     <button id="toggleSidebar">☰ Menü</button>
+
     <h1>Willkommen auf deiner Quiz Homepage</h1>
-    <button onclick="console.log('Quiz erstellen kommt bald!')">Quiz erstellen</button>
+    <form action="/quizzes/create" method="get" style="display:inline;">
+        <button type="submit">Quiz erstellen</button>
+    </form>
+
+    <form action="/quizzes" method="get" style="display:inline;">
+        <button type="submit">Quizzes durchsuchen</button>
+    </form>
+
+    <!-- <button onclick="console.log('Quiz erstellen kommt bald!')">Quiz erstellen</button> -->
     <button onclick="console.log('Hier siehst du deine Quizzes!')">Meine Quizzes</button>
     <button onclick="console.log('Hier findest du deine Freunde!')">Freunde</button>
     <button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>
+
+
 </div>
 
 <script>
@@ -74,5 +91,6 @@
         sidebar.classList.toggle('hidden');
     });
 </script>
+<a th:href="@{/login}">Anmelden</a>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz senden an:</title>
+</head>
+<body>
+<h2>Meine Freunde:</h2>
+<ul>
+    <li th:each="friend : ${friends}">
+        <span th:text="${friend.username}"></span>
+
+        <!-- POST-Formular mit CSRF-Token -->
+        <form th:action="@{/quizzes/transmit/{id}(id=${quizId})}"
+              method="post"
+              style="display:inline;">
+
+            <input type="hidden" name="username" th:value="${friend.username}">
+
+            <button type="submit">senden</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

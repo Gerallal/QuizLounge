@@ -1,6 +1,5 @@
 package de.thb.quizlounge.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,23 +10,26 @@ import javax.persistence.OneToOne;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
+import javax.persistence.ManyToOne;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Attempt implements Comparable {
-
+public class Attempt implements Comparable{
     @Id
     private long id;
     @OneToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Quiz quiz;
     private int numberOfRightAnswers;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Duration duration;
+
+    @ManyToOne
+    private Quiz attempt;
 
     public void setStartTime() {
         this.startTime = LocalDateTime.now();
@@ -61,6 +63,4 @@ public class Attempt implements Comparable {
         }
         return 0;
     }
-
-
 }
