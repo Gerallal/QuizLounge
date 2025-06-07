@@ -25,6 +25,7 @@ public class Attempt implements Comparable{
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Duration duration;
+    private boolean finished;
 
     @ManyToOne
     private Quiz attempt;
@@ -46,13 +47,7 @@ public class Attempt implements Comparable{
             if(this.getNumberOfRightAnswers() == ((Attempt) o).getNumberOfRightAnswers()){
                 int comparison = this.getDuration().compareTo(((Attempt) o).getDuration());
 
-                if (comparison < 0) {
-                    return -1;
-                } else if (comparison > 0) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                return Integer.compare(comparison, 0);
             }
             if(this.getNumberOfRightAnswers() < ((Attempt) o).getNumberOfRightAnswers()){
                 return -1;
@@ -66,10 +61,11 @@ public class Attempt implements Comparable{
         answers.get(quiz.getQuestions().get(0).getQuestionname());
         int correctAnswers = 0;
         for(Question question : quiz.getQuestions()){
+            if(answers.get(question.getQuestionname()) != null){
             if(answers.get(question.getQuestionname()).equals(question.getRightAnswer())){
                 correctAnswers++;
             }
-        }
+        }}
         this.numberOfRightAnswers = correctAnswers;
     }
 }

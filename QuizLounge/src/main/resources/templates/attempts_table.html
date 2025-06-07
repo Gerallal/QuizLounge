@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attempts</title>
+</head>
+<body>
+<li th:each="attempt : ${attempts}">
+  <a th:text="${attempt.user.username}"></a>
+     <a th:text="${attempt.numberOfRightAnswers}"></a>
+</body>
+</html>

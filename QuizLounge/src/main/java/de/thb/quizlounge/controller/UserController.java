@@ -188,10 +188,6 @@ public class UserController {
             userService.save(victim);
         } else return "fail";
 
-
-
-
-
         return "redirect:/home";
     }
 

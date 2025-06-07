@@ -140,6 +140,8 @@ public class QuizController {
         Attempt attempt = new Attempt();
         attempt.setQuiz(quiz);
         attempt.setUser(user);
+        attempt.setFinished(false);
+        attempt.setStartTime();
         attempt = attemptService.save(attempt);
         System.out.println(attempt.getId());
         //TODO: speichern in Quiz?
@@ -161,7 +163,11 @@ public class QuizController {
     public String updateFoos(@PathVariable long id, Model model, @RequestParam Map<String,String> allParams, HttpSession session) {
         System.out.println(id);
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
+        if(allParams == null){return "fail";}
         attempt.evaluate(allParams);
+        attempt.setFinished(true);
+        attempt.setEndTime();
+        attempt.getDuration();
         System.out.println(attempt.getNumberOfRightAnswers());
         attemptService.save(attempt);
         Quiz quiz = attempt.getQuiz();
@@ -169,6 +175,15 @@ public class QuizController {
         quizService.saveQuiz(quiz);
         model.addAttribute("attempt", attempt);
         return "attempt_finished";
+    }
+
+    @GetMapping("attempts/{id}")
+    public String getAttempt(@PathVariable long id, Model model, HttpSession session) {
+        Quiz quiz = quizService.getQuizById(id).orElse(null);
+        List <Attempt> attempts = quiz.getAttempts();
+        attempts.sort(null);
+        model.addAttribute("attempts", attempts);
+        return "attempts_table";
     }
 
 }
