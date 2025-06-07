@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
-import javax.persistence.ManyToOne;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Attempt implements Comparable{
     @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private long id;
     @OneToOne
     private User user;
@@ -62,5 +60,16 @@ public class Attempt implements Comparable{
             return 1;
         }
         return 0;
+    }
+
+    public void evaluate(Map<String,String> answers){
+        answers.get(quiz.getQuestions().get(0).getQuestionname());
+        int correctAnswers = 0;
+        for(Question question : quiz.getQuestions()){
+            if(answers.get(question.getQuestionname()).equals(question.getRightAnswer())){
+                correctAnswers++;
+            }
+        }
+        this.numberOfRightAnswers = correctAnswers;
     }
 }

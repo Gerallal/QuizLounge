@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Herzlichen Glückwunsch</title>
+</head>
+<body>
+Du hast das Quiz
+<span th:text="${attempt.quiz.title}"></span>
+erledigt und hattest
+<span th:text="${attempt.getNumberOfRightAnswers()}"></span>
+richtige Antworten/Antworten.
+</body>
+</html>
