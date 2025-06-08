@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -182,6 +183,7 @@ public class QuizController {
         Quiz quiz = quizService.getQuizById(id).orElse(null);
         List <Attempt> attempts = quiz.getAttempts();
         attempts.sort(null);
+        Collections.reverse(attempts);
         model.addAttribute("attempts", attempts);
         return "attempts_table";
     }

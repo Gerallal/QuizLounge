@@ -37,17 +37,22 @@ public class Attempt implements Comparable{
         this.endTime = LocalDateTime.now();
     }
     public Duration getDuration(){
-        this.duration = Duration.between(this.startTime, this.endTime);
+        if(this.startTime != null && this.endTime != null){
+            this.duration = Duration.between(this.startTime, this.endTime);
+        }
+
         return this.duration;
     }
 
     @Override
     public int compareTo(Object o) {
         if(o instanceof Attempt){
+            if(this.getDuration() == null || ((Attempt) o).getDuration() == null){
+                return -1;
+            }
             if(this.getNumberOfRightAnswers() == ((Attempt) o).getNumberOfRightAnswers()){
                 int comparison = this.getDuration().compareTo(((Attempt) o).getDuration());
-
-                return Integer.compare(comparison, 0);
+                return (Integer.compare(comparison, 0)) * -1;
             }
             if(this.getNumberOfRightAnswers() < ((Attempt) o).getNumberOfRightAnswers()){
                 return -1;
