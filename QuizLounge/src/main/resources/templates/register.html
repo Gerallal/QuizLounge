@@ -3,19 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <!-- <link rel="stylesheet" href="/css/register.css"> -->
 </head>
 <body>
-    <form action="" method="post">
-        <br>Benutzername:<br>
-        <input type="text" name="username">
-        <br>Passwort:<br>
-        <input type="text" name="password">
-        <br>Passwort erneut eingeben:<br>
-        <input type="text" name="repeatedPassword">
-        <br>
-        <input type="submit">
-        </p>
-    </form>
-    <a th:href="@{/login}">anmelden</a>
+<div class="register-wrapper">
+    <div class="register-box">
+        <h2>Konto erstellen</h2>
+        <form action="" method="post">
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Benutzername" required>
+
+                <span></span>
+            </div>
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Passwort" required>
+
+                <span></span>
+            </div>
+            <div class="input-box">
+                <input type="password" name="repeatedPassword" placeholder="Passwort bestätigen" required>
+
+                <span></span>
+            </div>
+            <button type="submit" class="register-button">Registrieren</button>
+        </form>
+        <div class="login-link">
+            <a th:href="@{/login}">Anmelden</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
