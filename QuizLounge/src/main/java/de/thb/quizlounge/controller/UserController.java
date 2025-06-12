@@ -76,6 +76,9 @@ public class UserController {
     @GetMapping("/home")
     public String home(Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("user", user);
         return "home";
     }
@@ -88,7 +91,9 @@ public class UserController {
     @GetMapping("/home/friends")
     public String showFriends(Model model, HttpSession session){
         User currentUser = (User) session.getAttribute("user");
-
+        if(currentUser == null) {
+            return "redirect:/login";
+        }
         // Optional: neu aus DB laden, damit Session aktiv ist
         User managedUser = userService.getUserById(currentUser.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -106,6 +111,9 @@ public class UserController {
     @PostMapping("/home/friends")
     public String sendFriendRequest(@RequestParam String username, Model model, HttpSession session){
         User sender = (User) session.getAttribute("user");
+        if(sender == null) {
+            return "redirect:/login";
+        }
         User receiver = userService.getUserByName(username);
 
         if (receiver != null && !sender.equals(receiver) && !(sender.getUsername().equals(username))){
@@ -124,8 +132,11 @@ public class UserController {
 
     @PostMapping("/home/friends/remove/{id}")
     public String removeFriend(@PathVariable("id") long friendId, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId"); // z. B. bei Login gesetzt
-
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.getUserById(userId).orElse(null);
+        if(user == null) {
+            return "redirect:/login";
+        }
         userService.deleteFriend(userId, friendId);
         return "redirect:/home/friends";
     }
@@ -137,12 +148,18 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("Request not found"));
         // friendRequest.setAccepted(true);
 
+        User user = (User) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/login";
+        }
         User sender = friendRequest.getSender();
         User receiver = friendRequest.getReceiver();
 
         if(sender.getFriends().contains(receiver)){
             return "fail";
         }
+
+
 
         sender.getFriends().add(receiver);
         receiver.getFriends().add(sender);

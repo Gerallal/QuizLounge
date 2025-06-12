@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/questions")
 @AllArgsConstructor
@@ -19,7 +21,12 @@ public class QuestionController {
     private final QuizService quizService;
 
     @PostMapping("/create/{quizId}")
-    public String createQuiz(@PathVariable long quizId, @RequestParam String questionname, @RequestParam String answer1, @RequestParam String answer2, @RequestParam String answer3, @RequestParam String answer4, @RequestParam String rightAnswer) {
+    public String createQuiz(@PathVariable long quizId, @RequestParam String questionname, @RequestParam String answer1,
+                             @RequestParam String answer2, @RequestParam String answer3, @RequestParam String answer4,
+                             @RequestParam String rightAnswer, HttpSession session) {
+        if(session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
         Quiz quiz = quizService.getQuizById(quizId).orElseThrow();
         Question question = new Question();
         question.setQuestionname(questionname);
@@ -34,14 +41,20 @@ public class QuestionController {
     }
 
     @PostMapping("/delete/{questionId}")
-    public String deleteQuestion(@PathVariable long questionId) {
+    public String deleteQuestion(@PathVariable long questionId, HttpSession session) {
+        if(session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
         Question question = questionService.getQuestionById(questionId).orElseThrow();
         questionService.deleteQuestionById(questionId);
         return "redirect:/quizzes/my/" + question.getQuiz().getId();
     }
 
     @GetMapping("/edit/{questionId}")
-    public String showEditNoteForm(@PathVariable long questionId, Model model) {
+    public String showEditNoteForm(@PathVariable long questionId, Model model, HttpSession session) {
+        if(session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
         Question question = questionService.getQuestionById(questionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("question", question);
@@ -49,7 +62,10 @@ public class QuestionController {
     }
 
     @PostMapping("/edit/{questionId}")
-    public String updateNote(@PathVariable long questionId, @ModelAttribute Question question) {
+    public String updateNote(@PathVariable long questionId, @ModelAttribute Question question, HttpSession session) {
+        if(session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
         Question fullQuestion = questionService.getQuestionById(questionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
