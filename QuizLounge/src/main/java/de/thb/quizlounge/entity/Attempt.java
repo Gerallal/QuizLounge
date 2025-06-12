@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
-import javax.persistence.ManyToOne;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Attempt implements Comparable{
     @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private long id;
     @OneToOne
     private User user;
@@ -27,6 +25,7 @@ public class Attempt implements Comparable{
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Duration duration;
+    private boolean finished;
 
     @ManyToOne
     private Quiz attempt;
@@ -38,23 +37,22 @@ public class Attempt implements Comparable{
         this.endTime = LocalDateTime.now();
     }
     public Duration getDuration(){
-        this.duration = Duration.between(this.startTime, this.endTime);
+        if(this.startTime != null && this.endTime != null){
+            this.duration = Duration.between(this.startTime, this.endTime);
+        }
+
         return this.duration;
     }
 
     @Override
     public int compareTo(Object o) {
         if(o instanceof Attempt){
+            if(this.getDuration() == null || ((Attempt) o).getDuration() == null){
+                return -1;
+            }
             if(this.getNumberOfRightAnswers() == ((Attempt) o).getNumberOfRightAnswers()){
                 int comparison = this.getDuration().compareTo(((Attempt) o).getDuration());
-
-                if (comparison < 0) {
-                    return -1;
-                } else if (comparison > 0) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                return (Integer.compare(comparison, 0)) * -1;
             }
             if(this.getNumberOfRightAnswers() < ((Attempt) o).getNumberOfRightAnswers()){
                 return -1;
@@ -62,5 +60,17 @@ public class Attempt implements Comparable{
             return 1;
         }
         return 0;
+    }
+
+    public void evaluate(Map<String,String> answers){
+        answers.get(quiz.getQuestions().get(0).getQuestionname());
+        int correctAnswers = 0;
+        for(Question question : quiz.getQuestions()){
+            if(answers.get(question.getQuestionname()) != null){
+            if(answers.get(question.getQuestionname()).equals(question.getRightAnswer())){
+                correctAnswers++;
+            }
+        }}
+        this.numberOfRightAnswers = correctAnswers;
     }
 }

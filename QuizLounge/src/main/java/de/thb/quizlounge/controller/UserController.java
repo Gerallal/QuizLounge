@@ -185,12 +185,9 @@ public class UserController {
         Quiz quiz = quizService.getQuizById(id).orElse(null);
         if(!victim.getQuizes().contains(quiz)) {
             victim.getQuizes().add(quiz);
+
             userService.save(victim);
         } else return "fail";
-
-
-
-
 
         return "redirect:/home";
     }

@@ -23,6 +23,6 @@ public class User {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendRequest> friendRequests;
 
-    @OneToMany
+    @ManyToMany
     private List<Quiz> quizes;
 }

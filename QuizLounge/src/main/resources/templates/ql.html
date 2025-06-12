@@ -5,15 +5,12 @@
     <link rel="stylesheet" href="/css/create_quiz.css">
 </head>
 <body>
-<h1>Meine Quizzes</h1>
+<h1>Quiz lösen!</h1>
 
-<form action="/quizzes/create" method="get">
-    <button type="submit">+ Neues Quiz erstellen</button>
-</form>
 
 <ul>
     <li th:each="quiz : ${quizzes}">
-        <a th:href="@{'/quizzes/my/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
+        <a th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
 
 
         <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post" style="display:inline;">

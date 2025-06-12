@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Meine Quizzes</title>
+</head>
+<body>
+<h1>Quiz lösen!</h1>
+
+
+<ul>
+    <span th:text="${quiz.title}"></span>
+    <form action="" method="post">
+        <tr th:each="question : ${quiz.questions}">
+            <span th:text="${question.questionname}"></span><br>
+            <input type="radio" th:id="${question.answer1}" th:name="${question.questionname}" th:value="${question.answer1}">
+            <label th:for="${question.answer1}"><span th:text="${question.answer1}"></span></label><br>
+            <input type="radio" th:id="${question.answer2}" th:name="${question.questionname}" th:value="${question.answer2}">
+            <label th:for="${question.answer2}"><span th:text="${question.answer2}"></span></label><br>
+            <input type="radio" th:id="${question.answer3}" th:name="${question.questionname}" th:value="${question.answer3}">
+            <label th:for="${question.answer3}"><span th:text="${question.answer3}"></span></label><br>
+            <input type="radio" th:id="${question.answer4}" th:name="${question.questionname}" th:value="${question.answer4}">
+            <label th:for="${question.answer4}"><span th:text="${question.answer4}"></span></label><br>
+        </tr>
+        <input type="submit">
+    </form>
+</ul>
+<a th:href="@{/home}">zurück</a>
+</body>
+</html>

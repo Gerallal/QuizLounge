@@ -1,8 +1,11 @@
 package de.thb.quizlounge.controller;
 
+import de.thb.quizlounge.entity.Attempt;
+import de.thb.quizlounge.entity.Question;
 import de.thb.quizlounge.entity.Quiz;
 import de.thb.quizlounge.entity.User;
 import de.thb.quizlounge.repository.UserRepository;
+import de.thb.quizlounge.service.AttemptService;
 import de.thb.quizlounge.service.QuizService;
 import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -22,6 +27,7 @@ public class QuizController {
     private final QuizService quizService;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final AttemptService attemptService;
 
     @GetMapping("")
     public String showQuizzes(Model model) {
@@ -107,7 +113,7 @@ public class QuizController {
         List<Quiz> quizzes = quizService.getQuizzesByAuthor(user);
         model.addAttribute("quizzes", quizzes);
 
-        return "my_quizzes"; // Name deiner Thymeleaf-View-Datei
+        return "my_quizzes";
     }
 
     @GetMapping("/ql")
@@ -121,8 +127,65 @@ public class QuizController {
         List<Quiz> quizzes = user.getQuizes();
         model.addAttribute("quizzes", quizzes);
 
-        return "ql"; // Name deiner Thymeleaf-View-Datei
+        return "ql";
     }
 
+    @GetMapping("solve/{id}")
+    public String solve(@PathVariable long id, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        user = userService.getUserByName(user.getUsername());
+        Quiz quiz = quizService.getQuizById(id).orElse(null);
+        if(quiz == null) {
+            return "fail";
+        }
+        Attempt attempt = new Attempt();
+        attempt.setQuiz(quiz);
+        attempt.setUser(user);
+        attempt.setFinished(false);
+        attempt.setStartTime();
+        attempt = attemptService.save(attempt);
+        System.out.println(attempt.getId());
+        //TODO: speichern in Quiz?
+        return "redirect:/quizzes/solvequiz/" + attempt.getId();
+    }
+
+    @GetMapping("solvequiz/{id}")
+    public String solveQuiz(@PathVariable long id, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        user = userService.getUserByName(user.getUsername());
+        Attempt attempt = attemptService.findAttemptById(id).orElse(null);
+        if(attempt == null || (user != attempt.getUser())) { return "fail"; }
+        Quiz quiz = attempt.getQuiz();
+        model.addAttribute("quiz", quiz);
+        return "solve_quiz";
+    }
+
+    @PostMapping("solvequiz/{id}")
+    public String updateFoos(@PathVariable long id, Model model, @RequestParam Map<String,String> allParams, HttpSession session) {
+        System.out.println(id);
+        Attempt attempt = attemptService.findAttemptById(id).orElse(null);
+        if(allParams == null){return "fail";}
+        attempt.evaluate(allParams);
+        attempt.setFinished(true);
+        attempt.setEndTime();
+        attempt.getDuration();
+        System.out.println(attempt.getNumberOfRightAnswers());
+        attemptService.save(attempt);
+        Quiz quiz = attempt.getQuiz();
+        quiz.getAttempts().add(attempt);
+        quizService.saveQuiz(quiz);
+        model.addAttribute("attempt", attempt);
+        return "attempt_finished";
+    }
+
+    @GetMapping("attempts/{id}")
+    public String getAttempt(@PathVariable long id, Model model, HttpSession session) {
+        Quiz quiz = quizService.getQuizById(id).orElse(null);
+        List <Attempt> attempts = quiz.getAttempts();
+        attempts.sort(null);
+        Collections.reverse(attempts);
+        model.addAttribute("attempts", attempts);
+        return "attempts_table";
+    }
 
 }

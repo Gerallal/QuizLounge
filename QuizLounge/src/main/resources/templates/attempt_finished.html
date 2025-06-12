@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Herzlichen Glückwunsch</title>
+</head>
+<body>
+Du hast das Quiz:
+<span th:text="${attempt.quiz.title}"></span>
+erledigt und hattest
+<td>
+    <th:block th:if="${attempt.getNumberOfRightAnswers() eq 1}">eine richtige Antwort.</th:block>
+    <th:block th:unless="${attempt.getNumberOfRightAnswers() eq 1}"><span th:text="${attempt.getNumberOfRightAnswers()}"></span> richtige Antworten.</th:block><br>
+    <a th:href="@{/quizzes/attempts/{id}(id=${attempt.quiz.id})}">
+       Schau dir an, wie andere abgeschnitten haben.</a>
+</td>
+</body>
+</html>
