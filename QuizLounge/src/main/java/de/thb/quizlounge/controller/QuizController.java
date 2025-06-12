@@ -144,8 +144,6 @@ public class QuizController {
         attempt.setFinished(false);
         attempt.setStartTime();
         attempt = attemptService.save(attempt);
-        System.out.println(attempt.getId());
-        //TODO: speichern in Quiz?
         return "redirect:/quizzes/solvequiz/" + attempt.getId();
     }
 
