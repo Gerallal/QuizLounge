@@ -29,7 +29,7 @@ public class UserService{
 
     public User getUserByName(String name) {
         return userRepository.findByUsername(name)
-                .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
+                .orElse(null);
     }
 
     public List<FriendRequest> getFriendRequestsByUser(User user){ return friendRequestRepository.findByReceiver(user); }

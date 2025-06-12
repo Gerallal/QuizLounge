@@ -28,13 +28,18 @@ public class UserController {
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String repeatedPassword, Model model){
 
         if(password.equals(repeatedPassword)){
+            if(userService.getUserByName(username) != null) {
+                return "fail";
+            }
+            if(username.length() > 12){
+                return "register";
+            }
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
             user.setFriends(new ArrayList<User>());
             userService.save(user);
             return "redirect:/login";
-
 
         }
         return "fail";
@@ -56,10 +61,11 @@ public class UserController {
             return "login";
         }
 
+
         if(currentUser.getPassword().equals(password)) {
             model.addAttribute("user", currentUser);
             session.setAttribute("user", currentUser);
-            session.setAttribute("userId", currentUser.getId()); // ✅ HINZUGEFÜGT!
+            session.setAttribute("userId", currentUser.getId());
             return "redirect:/home";
         }
 
