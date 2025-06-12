@@ -14,5 +14,21 @@ erledigt und hattest
     <a th:href="@{/quizzes/attempts/{id}(id=${attempt.quiz.id})}">
        Schau dir an, wie andere abgeschnitten haben.</a>
 </td>
+<h3>Wie bewertest du das Quiz?</h3>
+<form method="post" th:action="@{/quizzes/feedback}">
+    <input type="hidden" name="quizId" th:value="${attempt.quiz.id}" />
+
+    <label for="rating">Bewertung:</label><br>
+    <select name="rating" id="rating" required>
+        <option value="">-- Bitte wählen --</option>
+        <option value="1">1 Stern</option>
+        <option value="2">2 Sterne</option>
+        <option value="3">3 Sterne</option>
+        <option value="4">4 Sterne</option>
+        <option value="5">5 Sterne</option>
+    </select><br>
+
+    <button type="submit" style="margin-top:10px;">Bewertung senden</button>
+</form>
 </body>
 </html>
