@@ -1,0 +1,121 @@
+/* Hintergrund */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'SF Pro Light', sans-serif;
+    background: linear-gradient(135deg, #b791df, #a3c5ff);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.login-box {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.login-box h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Eingabefelder */
+.input-box {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    background: transparent;
+    outline: none;
+    color: #333;
+}
+
+.input-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    color: #999;
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.input-box span::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: #aa31ff;
+    transition: 0.4s;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    font-size: 12px;
+    color: #aa31ff;
+}
+
+.input-box input:focus ~ span::before,
+.input-box input:valid ~ span::before {
+    width: 100%;
+}
+
+/* Button */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #b791df, #a3c5ff);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.login-button:hover {
+    opacity: 0.9;
+}
+
+/* Register-Link */
+.register-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #aa31ff;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
