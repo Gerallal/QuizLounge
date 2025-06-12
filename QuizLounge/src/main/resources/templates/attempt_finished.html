@@ -15,7 +15,7 @@ erledigt und hattest
        Schau dir an, wie andere abgeschnitten haben.</a>
 </td>
 <h3>Wie bewertest du das Quiz?</h3>
-<form method="post" th:action="@{/quizzes/feedback}">
+<form method="post" th:action="@{/quizzes/feedback/{quizId}(quizId=${attempt.quiz.id})}">
     <input type="hidden" name="quizId" th:value="${attempt.quiz.id}" />
 
     <label for="rating">Bewertung:</label><br>

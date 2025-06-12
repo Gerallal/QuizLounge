@@ -3,7 +3,6 @@ package de.thb.quizlounge.controller;
 import de.thb.quizlounge.entity.Attempt;
 import de.thb.quizlounge.entity.Quiz;
 import de.thb.quizlounge.entity.User;
-import de.thb.quizlounge.repository.UserRepository;
 import de.thb.quizlounge.service.AttemptService;
 import de.thb.quizlounge.service.QuizService;
 import de.thb.quizlounge.service.UserService;
@@ -180,7 +179,6 @@ public class QuizController {
 
     @PostMapping("solvequiz/{id}")
     public String updateFoos(@PathVariable long id, Model model, @RequestParam Map<String,String> allParams, HttpSession session) {
-        System.out.println(id);
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
@@ -190,7 +188,6 @@ public class QuizController {
         attempt.setFinished(true);
         attempt.setEndTime();
         attempt.getDuration();
-        System.out.println(attempt.getNumberOfRightAnswers());
         attemptService.save(attempt);
         Quiz quiz = attempt.getQuiz();
         quiz.getAttempts().add(attempt);
@@ -212,8 +209,8 @@ public class QuizController {
         return "attempts_table";
     }
 
-    @PostMapping("/feedback")
-    public String submitFeedback(@RequestParam Long quizId, @RequestParam Integer rating, HttpSession session) {
+    @PostMapping("/feedback/{id}")
+    public String submitFeedback(@PathVariable long id, @RequestParam Long quizId, @RequestParam Integer rating, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -228,7 +225,7 @@ public class QuizController {
         attempt.setRating(rating);
         attemptService.save(attempt);
 
-        return "redirect:/quizzes";
+        return "redirect:/quizzes/attempts/" + id;
     }
 
 

@@ -16,6 +16,7 @@
         <th>Richtige Antworten</th>
         <th>Benötigte Zeit</th>
     </tr>
+
 <tr th:each="attempt : ${attempts}" th:if="${attempt.finished}">
 
     <td><a th:text="${attempt.user.username}"></a></td>
