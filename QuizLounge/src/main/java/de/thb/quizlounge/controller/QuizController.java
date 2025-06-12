@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -210,5 +211,25 @@ public class QuizController {
         }
         return "attempts_table";
     }
+
+    @PostMapping("/feedback")
+    public String submitFeedback(@RequestParam Long quizId, @RequestParam Integer rating, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Attempt> optionalAttempt = attemptService.getLatestAttemptByUserAndQuiz(user.getId(), quizId);
+        if (optionalAttempt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "attempt not found");
+        }
+
+        Attempt attempt = optionalAttempt.get();
+        attempt.setRating(rating);
+        attemptService.save(attempt);
+
+        return "redirect:/quizzes";
+    }
+
 
 }

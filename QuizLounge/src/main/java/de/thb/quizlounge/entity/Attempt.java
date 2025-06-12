@@ -30,6 +30,9 @@ public class Attempt implements Comparable{
     @ManyToOne
     private Quiz attempt;
 
+
+    private Integer rating;
+
     public void setStartTime() {
         this.startTime = LocalDateTime.now();
     }
