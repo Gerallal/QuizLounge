@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @AllArgsConstructor
@@ -27,7 +26,8 @@ public class UserController {
 
         if(password.equals(repeatedPassword)){
             if(userService.getUserByName(username) != null) {
-                return "fail";
+                model.addAttribute("statusText", "statusText");
+                return "register";
             }
             if(username.length() > 12){
                 return "register";
@@ -40,8 +40,10 @@ public class UserController {
             return "redirect:/login";
 
         }
-        return "fail";
+        model.addAttribute("statusText", "statusText");
+        return "register";
     }
+
     @GetMapping("register")
     public String register(Model model){
         return "register";
