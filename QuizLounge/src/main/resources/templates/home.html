@@ -7,8 +7,9 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'SF Pro Light', sans-serif;
             display: flex;
+            background: linear-gradient(135deg, #b791df, #a3c5ff);
         }
 
         #sidebar {
@@ -77,7 +78,9 @@
 
     <!-- <button onclick="console.log('Quiz erstellen kommt bald!')">Quiz erstellen</button> -->
     <button onclick="console.log('Hier siehst du deine Quizzes!')">Meine Quizzes</button>
-    <button onclick="console.log('Hier findest du deine Freunde!')">Freunde</button>
+    <form action="home/friends" method="get" style="display:inline;">
+        <button onclick="console.log('Hier findest du deine Freunde!')">Freunde</button>
+    </form>
     <button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>
 
 
@@ -91,6 +94,6 @@
         sidebar.classList.toggle('hidden');
     });
 </script>
-<a th:href="@{/login}">Anmelden</a>
+<a th:href="@{/login}">Abmelden</a>
 </body>
 </html>

@@ -91,7 +91,7 @@ body {
 .login-button {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #b791df, #a3c5ff);
+    background: #b791df;
     border: none;
     border-radius: 30px;
     color: white;

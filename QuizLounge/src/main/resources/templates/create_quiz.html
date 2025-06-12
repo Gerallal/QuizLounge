@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Quiz erstellen</title>
+  <link rel="stylesheet" href="/css/create_quiz.css">
 </head>
 <body>
 <h1>Quiz erstellen</h1>
 <form th:action="@{/quizzes/create}" th:object="${quiz}" method="post">
   <label for="title">Titel:</label>
-  <input type="text" id="title" th:field="*{title}" required/><br><br>
+  <input type="text" id="title" th:field="*{title}" required placeholder="Titel"/><br><br>
 
   <label for="description">Beschreibung:</label>
-  <textarea id="description" th:field="*{description}"></textarea><br><br>
+  <textarea id="description" th:field="*{description}" placeholder="Beschreibung"></textarea><br><br>
 
   <button type="submit">Speichern</button>
   <!-- Author muss automatisch hinzugefügt werden, nicht per Eingabe -->
