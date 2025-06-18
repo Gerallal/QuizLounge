@@ -6,14 +6,14 @@
 </head>
 <body>
 <h1>Quiz lösen!</h1>
-<h3>📝 Meine Quizzes</h3>
+<h3>Meine Quizzes</h3>
 <ul>
     <li th:each="quiz : ${myQuizzes}">
         <a th:href="@{/quizzes/{id}(id=${quiz.id})}" th:text="${quiz.title}">Quiz-Titel</a>
         <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
     </li>
 </ul>
-<h3>📥 An mich gesendete Quizzes</h3>
+<h3>An mich gesendete Quizzes</h3>
 <ul>
     <li th:each="quiz : ${quizzes}">
         <a th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
