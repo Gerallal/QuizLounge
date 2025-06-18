@@ -225,6 +225,11 @@ public class QuizController {
         attempt.setRating(rating);
         attemptService.save(attempt);
 
+        Quiz quiz = attempt.getQuiz();
+        quiz.setTotalRating(quiz.getTotalRating() + rating);
+        quiz.setNumberOfRatings(quiz.getNumberOfRatings() + 1);
+        quizService.saveQuiz(quiz);
+
         return "redirect:/quizzes/attempts/" + id;
     }
 

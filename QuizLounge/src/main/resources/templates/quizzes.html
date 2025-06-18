@@ -13,6 +13,7 @@
             <a th:href="@{/quizzes/{id}(id=${quiz.id})}"
                th:text="${quiz.title}"></a>
             <span> von <b th:text="${quiz.author.username}">erstellt von: </b></span>
+            <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
         </li>
     </ul>
     <a th:href="@{/home}">zurück</a>

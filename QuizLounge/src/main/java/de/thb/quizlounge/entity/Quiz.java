@@ -29,7 +29,10 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
     private List<Question> questions;
 
+    private int totalRating;
+    private int numberOfRatings;
 
-
-
+    public double getAverageRating() {
+        return numberOfRatings == 0 ? 0.0 : (double) totalRating / numberOfRatings;
+    }
 }
