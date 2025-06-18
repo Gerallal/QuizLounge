@@ -184,11 +184,12 @@ public class QuizController {
         }
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
         if(allParams == null){return "fail";}
-        attempt.evaluate(allParams);
+        /*attempt.evaluate(allParams);
         attempt.setFinished(true);
         attempt.setEndTime();
         attempt.getDuration();
-        attemptService.save(attempt);
+        attemptService.save(attempt);*/
+        attemptService.evaluateAttempt(attempt, allParams);
         Quiz quiz = attempt.getQuiz();
         quiz.getAttempts().add(attempt);
         quizService.saveQuiz(quiz);
