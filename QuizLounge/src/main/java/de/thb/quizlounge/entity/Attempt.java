@@ -28,8 +28,6 @@ public class Attempt implements Comparable{
     private boolean finished;
 
 
-    private Integer rating;
-
     public void setStartTime() {
         this.startTime = LocalDateTime.now();
     }
