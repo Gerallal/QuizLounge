@@ -13,14 +13,14 @@
 <table>
     <tr>
         <th>Name</th>
-        <th>Richtige Antworten</th>
+        <th>Score</th>
         <th>Benötigte Zeit</th>
     </tr>
 
 <tr th:each="attempt : ${attempts}" th:if="${attempt.finished}">
 
     <td><a th:text="${attempt.user.username}"></a></td>
-    <td> <a th:text="${attempt.numberOfRightAnswers}"></a></td>
+    <td> <a th:text="${attempt.getScoreInPercent()}"></a></td>
     <td> <a th:text="${attempt.duration.getSeconds()  + 's'}"></a></td>
 </tr>
 </table>

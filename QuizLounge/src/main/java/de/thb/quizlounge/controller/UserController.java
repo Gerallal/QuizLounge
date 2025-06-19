@@ -117,6 +117,7 @@ public class UserController {
         User receiver = userService.getUserByName(username);
 
         if (receiver != null && !sender.equals(receiver) && !(sender.getUsername().equals(username))){
+
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.setSender(sender);
             friendRequest.setReceiver(receiver);

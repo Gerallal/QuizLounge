@@ -36,6 +36,7 @@ public class AttemptService {
             }
         }
         attempt.setNumberOfRightAnswers(correctAnswers);
+        attempt.setScore(((float) attempt.getNumberOfRightAnswers()) / attempt.getQuiz().getQuestions().size());
         attempt.setFinished(true);
         attempt.setEndTime();
         attempt.getDuration();

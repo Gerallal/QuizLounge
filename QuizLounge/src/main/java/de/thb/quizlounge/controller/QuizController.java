@@ -175,7 +175,12 @@ public class QuizController {
         user = userService.getUserByName(user.getUsername());
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
         if(attempt == null || (user != attempt.getUser())) { return "fail"; }
+
         Quiz quiz = attempt.getQuiz();
+
+        if(quiz.getQuestions().isEmpty()) {
+            return "fail";
+        }
         model.addAttribute("quiz", quiz);
         return "solve_quiz";
     }
@@ -226,7 +231,7 @@ public class QuizController {
         }
 
         Attempt attempt = optionalAttempt.get();
-        attempt.setRating(rating);
+        //attempt.setRating(rating);
         attemptService.save(attempt);
 
         Quiz quiz = attempt.getQuiz();
