@@ -14,6 +14,7 @@
   <ul>
     <li th:each="quiz : ${quizzes}">
       <a th:href="@{'/quizzes/my/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
+      <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
       <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" method="get" style="display:inline;">
         <button type="submit">bearbeiten</button>
       </form>

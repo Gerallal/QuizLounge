@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Meine Quizzes</title>
+    <title>Quizzes lösen</title>
     <link rel="stylesheet" href="/css/create_quiz.css">
 </head>
 <body>
 <h1>Quiz lösen!</h1>
-
-
+<h3>Meine Quizzes</h3>
+<ul>
+    <li th:each="quiz : ${myQuizzes}">
+        <a th:href="@{/quizzes/{id}(id=${quiz.id})}" th:text="${quiz.title}">Quiz-Titel</a>
+        <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
+    </li>
+</ul>
+<h3>An mich gesendete Quizzes</h3>
 <ul>
     <li th:each="quiz : ${quizzes}">
         <a th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
-
+        <span> von <b th:text="${quiz.author.username}">erstellt von: </b></span>
+        <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
 
         <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post" style="display:inline;">
-            <input type="hidden" name="_method" value="delete"/>
+            <input type="hidden" name="_method" value="solve"/>
             </form>
     </li>
 </ul>

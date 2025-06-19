@@ -11,4 +11,5 @@ import org.springframework.data.repository.RepositoryDefinition;
 public interface AttemptRepository extends CrudRepository<Attempt, Long> {
     Optional<Attempt> findTopByUserIdAndQuizIdOrderByEndTimeDesc(Long userId, Long quizId);
 
+
 }

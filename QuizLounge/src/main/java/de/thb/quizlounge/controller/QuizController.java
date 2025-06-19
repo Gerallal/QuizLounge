@@ -184,11 +184,12 @@ public class QuizController {
         }
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
         if(allParams == null){return "fail";}
-        attempt.evaluate(allParams);
+        /*attempt.evaluate(allParams);
         attempt.setFinished(true);
         attempt.setEndTime();
         attempt.getDuration();
-        attemptService.save(attempt);
+        attemptService.save(attempt);*/
+        attemptService.evaluateAttempt(attempt, allParams);
         Quiz quiz = attempt.getQuiz();
         quiz.getAttempts().add(attempt);
         quizService.saveQuiz(quiz);
@@ -224,6 +225,11 @@ public class QuizController {
         Attempt attempt = optionalAttempt.get();
         attempt.setRating(rating);
         attemptService.save(attempt);
+
+        Quiz quiz = attempt.getQuiz();
+        quiz.setTotalRating(quiz.getTotalRating() + rating);
+        quiz.setNumberOfRatings(quiz.getNumberOfRatings() + 1);
+        quizService.saveQuiz(quiz);
 
         return "redirect:/quizzes/attempts/" + id;
     }
