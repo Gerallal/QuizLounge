@@ -27,9 +27,6 @@ public class Attempt implements Comparable{
     private Duration duration;
     private boolean finished;
 
-    @ManyToOne
-    private Quiz attempt;
-
 
     private Integer rating;
 

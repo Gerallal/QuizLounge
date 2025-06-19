@@ -8,14 +8,16 @@
 <body>
   <h1 th:text="${quiz.title}"></h1>
   <h3 th:text="${quiz.description}"></h3>
-  <ul style="list-style-type: disc;">
-    <li th:each="question : ${quiz.questions}">
+  <ul style="padding-left: 0; margin: 0;">
+    <li th:each="question : ${quiz.questions}" style="list-style: none;">
       <div style="display: flex; align-items: center; gap: 10px;">
-        <span th:text="${question.questionname}"></span>
-        <span th:text="${question.answer1}"></span>
-        <span th:text="${question.answer2}"></span>
-        <span th:text="${question.answer3}"></span>
-        <span th:text="${question.answer4}"></span>
+        <div class="question-row">
+          <div class="question-text" th:text="${question.questionname}"></div>
+
+          <div class="answer" th:text="${question.answer1}"></div>
+          <div class="answer" th:text="${question.answer2}"></div>
+          <div class="answer" th:text="${question.answer3}"></div>
+          <div class="answer" th:text="${question.answer4}"></div>
 
       </div>
     </li>

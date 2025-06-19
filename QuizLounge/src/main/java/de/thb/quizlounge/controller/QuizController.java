@@ -140,6 +140,9 @@ public class QuizController {
         List<Quiz> quizzes = user.getQuizes();
         model.addAttribute("quizzes", quizzes);
 
+        List<Quiz> myQuizzes = quizService.getQuizzesByAuthor(user);
+        model.addAttribute("myQuizzes", myQuizzes);
+
         return "ql";
     }
 
