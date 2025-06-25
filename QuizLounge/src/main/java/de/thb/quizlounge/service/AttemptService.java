@@ -6,6 +6,7 @@ import de.thb.quizlounge.repository.AttemptRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 
@@ -39,7 +40,14 @@ public class AttemptService {
         attempt.setScore(((float) attempt.getNumberOfRightAnswers()) / attempt.getQuiz().getQuestions().size());
         attempt.setFinished(true);
         attempt.setEndTime();
-        attempt.getDuration();
+        calculateDuration(attempt);
         attemptRepository.save(attempt);
+    }
+
+    public Duration calculateDuration(Attempt attempt) {
+        if (attempt.getStartTime() != null && attempt.getEndTime() != null) {
+            attempt.setDuration(Duration.between(attempt.getStartTime(), attempt.getEndTime()));
+        }
+        return attempt.getDuration();
     }
 }

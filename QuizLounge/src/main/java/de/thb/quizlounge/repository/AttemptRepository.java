@@ -1,9 +1,7 @@
 package de.thb.quizlounge.repository;
 
-
 import de.thb.quizlounge.entity.Attempt;
 import java.util.Optional;
-import de.thb.quizlounge.entity.Question;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.RepositoryDefinition;
 

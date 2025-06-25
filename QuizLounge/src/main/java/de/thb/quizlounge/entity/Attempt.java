@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -17,10 +16,13 @@ public class Attempt implements Comparable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @OneToOne
     private User user;
+
     @ManyToOne
     private Quiz quiz;
+
     private int numberOfRightAnswers;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -34,14 +36,6 @@ public class Attempt implements Comparable {
 
     public void setEndTime() {
         this.endTime = LocalDateTime.now();
-    }
-
-    public Duration getDuration() {
-        if (this.startTime != null && this.endTime != null) {
-            this.duration = Duration.between(this.startTime, this.endTime);
-        }
-
-        return this.duration;
     }
 
     public String getScoreInPercent() {

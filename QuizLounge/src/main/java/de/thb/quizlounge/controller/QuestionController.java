@@ -51,7 +51,7 @@ public class QuestionController {
     }
 
     @GetMapping("/edit/{questionId}")
-    public String showEditNoteForm(@PathVariable long questionId, Model model, HttpSession session) {
+    public String showEditQuestionForm(@PathVariable long questionId, Model model, HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
@@ -62,7 +62,7 @@ public class QuestionController {
     }
 
     @PostMapping("/edit/{questionId}")
-    public String updateNote(@PathVariable long questionId, @ModelAttribute Question question, HttpSession session) {
+    public String updateQuestion(@PathVariable long questionId, @ModelAttribute Question question, HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
