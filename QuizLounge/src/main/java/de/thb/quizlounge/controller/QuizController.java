@@ -155,7 +155,7 @@ public class QuizController {
         user = userService.getUserByName(user.getUsername());
         Quiz quiz = quizService.getQuizById(id).orElse(null);
         if(quiz == null) {
-            return "fail";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "quiz not found");
         }
         Attempt attempt = new Attempt();
         attempt.setQuiz(quiz);
