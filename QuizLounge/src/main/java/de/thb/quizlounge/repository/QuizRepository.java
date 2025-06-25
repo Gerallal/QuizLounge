@@ -10,5 +10,6 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Quiz.class, idClass = Long.class)
 public interface QuizRepository extends CrudRepository<Quiz, Long> {
     List<Quiz> findByAuthor(User user);
+    List<Quiz> findByCategory(String category);
 
 }

@@ -28,8 +28,14 @@ public class QuizController {
     private final AttemptService attemptService;
 
     @GetMapping("")
-    public String showQuizzes(Model model, HttpSession session) {
-        List<Quiz> quizzes = quizService.getAllQuizzes();
+    public String showQuizzes(@RequestParam(value = "category", required = false) String category, Model model, HttpSession session) {
+        List<Quiz> quizzes;
+
+        if(category != null) {
+            quizzes = quizService.getQuizzesByCategory(category);
+            model.addAttribute("selectedCategory", category);
+        } else quizzes = quizService.getAllQuizzes();
+
         model.addAttribute("quizzes", quizzes);
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
@@ -94,7 +100,6 @@ public class QuizController {
         return "redirect:/quizzes/my";
     }
 
-    // Zeigt das Bearbeitungsformular
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable long id, Model model, HttpSession session) {
         Quiz quiz = quizService.getQuizById(id)

@@ -76,10 +76,18 @@ public class UserController {
     @GetMapping("/home")
     public String home(Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
+
         if(user == null) {
             return "redirect:/login";
         }
+
+        User managedUser = userService.getUserById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<User> friends = managedUser.getFriends();
+
         model.addAttribute("user", user);
+        model.addAttribute("friends", friends);
         return "home";
     }
 

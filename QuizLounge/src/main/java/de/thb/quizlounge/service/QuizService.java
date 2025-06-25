@@ -50,5 +50,6 @@ public class QuizService {
         return quizRepository.findByAuthor(author);
     }
 
+    public List<Quiz> getQuizzesByCategory(String category) { return quizRepository.findByCategory(category); }
 
 }
