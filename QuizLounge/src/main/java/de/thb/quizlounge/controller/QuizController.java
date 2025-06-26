@@ -116,6 +116,7 @@ public class QuizController {
         if(user == null) {
             return "redirect:/login";
         }
+        user = userService.getUserByName(user.getUsername());
         List<Quiz> quizzes = quizService.getQuizzesByAuthor(user);
         model.addAttribute("quizzes", quizzes);
         return "my_quizzes";

@@ -81,8 +81,8 @@
     <tbody>
     <tr th:each="attempt : ${attempts}" th:if="${attempt.finished}">
         <td><span th:text="${attempt.user.username}">Max</span></td>
-        <td><span th:text="${attempt.getScoreInPercent + '%'}">100%</span></td>
-        <td><span th:text="${attempt.duration.getSeconds() + 's'}">12s</span></td>
+        <td><span th:text="${attempt.getScoreInPercent}">100%</span></td>
+        <td><span th:text="${attempt.duration.toMinutes() >= 1} ? ${attempt.duration.toMinutes()} + 'm ' + ${attempt.duration.seconds % 60} + 's' : ${attempt.duration.seconds} + 's'"></span></td>
     </tr>
     </tbody>
 </table>

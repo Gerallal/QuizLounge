@@ -22,7 +22,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 600px;
+      max-width: 500px;
     }
 
     h1 {
@@ -39,7 +39,8 @@
     }
 
     input[type="text"],
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -93,7 +94,7 @@
     <input type="text" id="title" th:field="*{title}"/>
 
     <label for="category">Kategorie:</label>
-    <select id="category" th:field="*{category}" required>
+    <select id="category" th:field="*{category}">
       <option value="" disabled selected>Kategorie wählen</option>
       <option value="Mathematik">Mathematik</option>
       <option value="Deutsch">Deutsch</option>

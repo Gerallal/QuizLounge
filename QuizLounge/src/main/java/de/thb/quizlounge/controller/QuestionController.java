@@ -34,7 +34,14 @@ public class QuestionController {
         question.setAnswer2(answer2);
         question.setAnswer3(answer3);
         question.setAnswer4(answer4);
-        question.setRightAnswer(rightAnswer);
+        if(rightAnswer > 0 && rightAnswer < 5) {
+            switch (rightAnswer) {
+                case 1: question.setRightAnswer(answer1); break;
+                case 2: question.setRightAnswer(answer2); break;
+                case 3: question.setRightAnswer(answer3); break;
+                case 4: question.setRightAnswer(answer4); break;
+            }
+        }
         question.setQuiz(quiz);
         questionService.save(question);
         return "redirect:/quizzes/my/" + quizId;

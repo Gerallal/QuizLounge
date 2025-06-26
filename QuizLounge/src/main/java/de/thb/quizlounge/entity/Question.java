@@ -19,7 +19,7 @@ public class Question {
     private String answer2;
     private String answer3;
     private String answer4;
-    private int rightAnswer;
+    private String rightAnswer;
 
     @ManyToOne
     private Quiz quiz;

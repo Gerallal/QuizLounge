@@ -146,7 +146,7 @@
     <div class="answer" th:text="'4. ' + ${question.answer4}"></div>
 
     <div class="answer" style="margin-top: 8px; font-weight: bold; color: green;">
-      Richtige Antwort: <span th:text="${question['answer' + question.rightAnswer]}"></span>
+      Richtige Antwort: <span th:text="${question.getRightAnswer()}"></span>
     </div>
 
     <form class="button-form" th:action="@{/questions/edit/{questionId}(questionId=${question.id})}" method="get">
