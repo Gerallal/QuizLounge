@@ -24,7 +24,7 @@ public class Quiz {
     @JoinColumn(name = "author_id") // Optional: explizite Spalte
     private User author;
 
-    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Attempt> attempts;
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)

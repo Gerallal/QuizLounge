@@ -81,24 +81,24 @@
 <h1 th:text="${quiz.title}">Quiz-Titel</h1>
 
 <div class="quiz-container">
-    <form method="post" th:action="@{/quizzes/solvequiz/{id}(id=${quiz.id})}">
+    <form method="post" th:action="@{/quizzes/solvequiz/{id}(id=${attempt.id})}">
         <div th:each="question : ${quiz.questions}" class="question-block">
             <div class="question-title" th:text="${question.questionname}">Fragetext</div>
 
             <label class="answer-option">
-                <input type="radio" th:name="${question.id}" th:value="${question.answer1}" required>
+                <input type="radio" th:name="${question.questionname}" th:value="${question.answer1}" required>
                 <span th:text="${question.answer1}"></span>
             </label>
             <label class="answer-option">
-                <input type="radio" th:name="${question.id}" th:value="${question.answer2}">
+                <input type="radio" th:name="${question.questionname}" th:value="${question.answer2}">
                 <span th:text="${question.answer2}"></span>
             </label>
             <label class="answer-option">
-                <input type="radio" th:name="${question.id}" th:value="${question.answer3}">
+                <input type="radio" th:name="${question.questionname}" th:value="${question.answer3}">
                 <span th:text="${question.answer3}"></span>
             </label>
             <label class="answer-option">
-                <input type="radio" th:name="${question.id}" th:value="${question.answer4}">
+                <input type="radio" th:name="${question.questionname}" th:value="${question.answer4}">
                 <span th:text="${question.answer4}"></span>
             </label>
         </div>

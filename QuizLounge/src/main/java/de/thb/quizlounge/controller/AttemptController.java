@@ -32,12 +32,14 @@ public class AttemptController {
     @GetMapping("solve/{id}")
     public String solve(@PathVariable long id, Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
+        System.out.println("Ich bin hier.");
         if(user == null) {
             return "redirect:/login";
         }
         user = userService.getUserByName(user.getUsername());
         Quiz quiz = quizService.getQuizById(id).orElse(null);
         if(quiz == null) {
+            System.out.println("Ich bin hier auch.");
             return "fail";
         }
         if (quiz.getQuestions().isEmpty()){
@@ -49,6 +51,7 @@ public class AttemptController {
         attempt.setUser(user);
         attempt.setFinished(false);
         attempt.setStartTime();
+        System.out.println(attempt.getStartTime());
         attempt = attemptService.save(attempt);
         return "redirect:/quizzes/solvequiz/" + attempt.getId();
     }
@@ -56,6 +59,7 @@ public class AttemptController {
     @GetMapping("solvequiz/{id}")
     public String solveQuiz(@PathVariable long id, Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
+        System.out.println("Ich bin in solvequihz.");
         if(user == null) {
             return "redirect:/login";
         }
@@ -73,6 +77,7 @@ public class AttemptController {
             return "fail";
         }
         model.addAttribute("quiz", quiz);
+        model.addAttribute("attempt", attempt);
         return "solve_quiz";
     }
 
@@ -81,6 +86,7 @@ public class AttemptController {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
+        System.out.println("Ich bin hier.");
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
         if(allParams == null){return "fail";}
         /*attempt.evaluate(allParams);
