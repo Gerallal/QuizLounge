@@ -25,7 +25,7 @@ public class QuizController {
     public String showQuizzes(@RequestParam(value = "category", required = false) String category, Model model, HttpSession session) {
         List<Quiz> quizzes;
 
-        if(category != null) {
+        if(category != null && !category.isEmpty()) {
             quizzes = quizService.getQuizzesByCategory(category);
             model.addAttribute("selectedCategory", category);
         } else quizzes = quizService.getAllQuizzes();
