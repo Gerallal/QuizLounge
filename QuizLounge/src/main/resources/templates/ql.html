@@ -93,7 +93,7 @@
         <div class="quiz-meta">
             <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'">⭐ 0.0 / 5</span>
         </div>
-        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post">
+        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="get">
             <input type="hidden" name="_method" value="solve"/>
             <button type="submit" class="solve-button">Jetzt lösen</button>
         </form>
@@ -108,7 +108,7 @@
             von <b th:text="${quiz.author.username}">Autor</b> <br>
             <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'">⭐ 0.0 / 5</span>
         </div>
-        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post">
+        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="get">
             <input type="hidden" name="_method" value="solve"/>
             <button type="submit" class="solve-button">Jetzt lösen</button>
         </form>
