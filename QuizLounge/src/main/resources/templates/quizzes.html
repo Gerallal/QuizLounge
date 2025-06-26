@@ -1,21 +1,119 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quizzes</title>
-    <link rel="stylesheet" href="/css/create_quiz.css">
+    <title>Quizübersicht</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a3fc1;
+        }
+
+        .filter-container {
+            text-align: center;
+            margin: 30px 0 50px;
+        }
+
+        .filter-container select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .quiz-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .quiz-title:hover {
+            text-decoration: underline;
+        }
+
+        .quiz-meta {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .rating {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #4a3fc1;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Quizzes im Überblick:</h1>
 
-    <ul>
-        <li th:each="quiz : ${quizzes}">
-            <a th:href="@{/quizzes/{id}(id=${quiz.id})}"
-               th:text="${quiz.title}"></a>
-            <span> von <b th:text="${quiz.author.username}">erstellt von: </b></span>
-            <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
-        </li>
-    </ul>
-    <a th:href="@{/home}">zurück</a>
+<h1>Quizzes im Überblick</h1>
+
+<!-- Kategorie-Filter -->
+<div class="filter-container">
+    <form method="get" action="/quizzes">
+        <label for="category">Kategorie:</label>
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="" th:selected="${selectedCategory == null}">Alle Kategorien</option>
+            <option value="Mathematik" th:selected="${selectedCategory == 'Mathematik'}">Mathematik</option>
+            <option value="Deutsch" th:selected="${selectedCategory == 'Deutsch'}">Deutsch</option>
+            <option value="Englisch" th:selected="${selectedCategory == 'Englisch'}">Englisch</option>
+            <option value="Biologie" th:selected="${selectedCategory == 'Biologie'}">Biologie</option>
+            <option value="Physik" th:selected="${selectedCategory == 'Physik'}">Physik</option>
+            <option value="Geographie" th:selected="${selectedCategory == 'Geographie'}">Geographie</option>
+            <option value="Informatik" th:selected="${selectedCategory == 'Informatik'}">Informatik</option>
+            <option value="Geschichte" th:selected="${selectedCategory == 'Geschichte'}">Geschichte</option>
+        </select>
+    </form>
+</div>
+
+<!-- Quiz-Anzeige -->
+<div class="quiz-grid">
+    <th:block th:each="quiz : ${quizzes}">
+        <div class="quiz-card">
+            <a class="quiz-title" th:href="@{/quizzes/{id}(id=${quiz.id})}" th:text="${quiz.title}">[Titel]</a>
+            <div class="quiz-meta">
+                von <b th:text="${quiz.author.username}">[Autor]</b><br>
+                <span class="rating" th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'">⭐</span>
+            </div>
+        </div>
+    </th:block>
+</div>
+
+<a class="back-link" th:href="@{/home}">← zurück zur Startseite</a>
+
 </body>
 </html>

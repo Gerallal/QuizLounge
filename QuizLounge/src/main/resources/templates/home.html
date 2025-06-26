@@ -2,98 +2,195 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine Quiz Homepage</title>
+    <title>Quiz-Startseite</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: 'SF Pro Light', sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
-            background: linear-gradient(135deg, #b791df, #a3c5ff);
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
         }
 
         #sidebar {
             width: 250px;
-            background-color: mediumpurple;
+            background-color: #b0a7f5;
             color: white;
             height: 100vh;
             padding: 20px;
             box-sizing: border-box;
             transition: transform 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         #sidebar.hidden {
             transform: translateX(-100%);
         }
 
-        #main {
-            flex-grow: 1;
-            padding: 20px;
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
         }
 
-        button {
-            display: block;
-            margin: 10px 0;
-            padding: 10px 20px;
+        #sidebar ul li {
+            margin: 20px 0;
+        }
+
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
             font-size: 16px;
-            cursor: pointer;
+            font-weight: 500;
+        }
+
+        #main {
+            margin-left: 250px;
+            flex-grow: 1;
+            padding: 30px;
         }
 
         #toggleSidebar {
             position: absolute;
             top: 10px;
             left: 10px;
-            z-index: 1000;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: #786fe0;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6358c5;
+        }
+
+        .logout {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .friends-section {
+            margin: 30px 0;
+        }
+
+        .friends-list {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .friend {
+            background-color: #d5ccff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            min-width: 100px;
+            text-align: center;
+            font-weight: bold;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
+
+<!-- Sidebar Toggle -->
+<button id="toggleSidebar">☰</button>
+
+<!-- Sidebar -->
 <div id="sidebar">
-    <br>
-    <br>
-    <br>
     <ul>
-        <li><a href="#" style="color:white; text-decoration:none;">Startseite</a></li>
-        <li><a href="/quizzes/my" style="color:white; text-decoration:none;">Meine Quizzes</a></li>
-        <li><a href="/quizzes/ql" style="color:white; text-decoration:none;">QUIZ LÖSEN!</a></li>
-        <li><a href="home/friends" style="color:white; text-decoration:none;">Freunde</a></li>
-        <!--<li><a href="#" style="color:white; text-decoration:none;">Statistiken</a></li>-->
-        <br>
-        <br>Eingeloggt als</br>
-        <span th:text="${user.username}">[]</span>
+        <br><br>
+        <li><a href="#">Startseite</a></li>
+        <li><a href="/quizzes/my">Meine Quizzes</a></li>
+        <li><a href="/quizzes/ql">Quiz lösen</a></li>
+        <li><a href="/home/friends">Freunde</a></li>
+        <li><a href="#">Statistiken</a></li>
     </ul>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <div class="logout">
+        Eingeloggt als<br>
+        <strong th:text="${user.username}">[Username]</strong><br>
+        <a th:href="@{/login}" style="color: #eee;">Abmelden</a>
+    </div>
 </div>
 
+<!-- Hauptbereich -->
 <div id="main">
-    <button id="toggleSidebar">☰ Menü</button>
+    <h1>Quiz-Homepage</h1>
 
-    <h1>Willkommen auf deiner Quiz Homepage</h1>
-    <form action="/quizzes/create" method="get" style="display:inline;">
-        <button type="submit">Quiz erstellen</button>
-    </form>
+    <button id="showFriendsBtn">Deine Freunde anzeigen</button>
 
-    <form action="/quizzes" method="get" style="display:inline;">
-        <button type="submit">Quizzes durchsuchen</button>
-    </form>
-
-    <!-- <button onclick="console.log('Quiz erstellen kommt bald!')">Quiz erstellen</button> -->
-    <!--<button onclick="console.log('Hier siehst du deine Quizzes!')">Meine Quizzes</button>-->
-    <form action="home/friends" method="get" style="display:inline;">
-        <button onclick="console.log('Hier findest du deine Freunde!')">Freunde</button>
-    </form>
-    <!--<button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>-->
+    <div class="friends-section" id="friendsSection" style="display: none;">
+        <h2>Deine Freunde</h2>
+        <div class="friends-list">
+            <div class="friend" th:each="f : ${friends}" th:text="${f.username}">[Freundename]</div>
+        </div>
+    </div>
 
 
+    <div class="button-group">
+        <form action="/quizzes/create" method="get">
+            <button type="submit">Quiz erstellen</button>
+        </form>
+
+        <form action="/quizzes" method="get">
+            <button type="submit">Quizzes durchsuchen</button>
+        </form>
+
+        <form action="/quizzes/my" method="get">
+            <button type="submit">Meine Quizzes</button>
+        </form>
+
+        <button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>
+    </div>
 </div>
 
 <script>
+    // Sidebar
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
-
     toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('hidden');
     });
+
+    // Freunde anzeigen
+    const showFriendsBtn = document.getElementById('showFriendsBtn');
+    const friendsSection = document.getElementById('friendsSection');
+    showFriendsBtn.addEventListener('click', () => {
+        friendsSection.style.display = 'block';
+        showFriendsBtn.style.display = 'none';
+    });
 </script>
-<a th:href="@{/login}">Abmelden</a>
+
 </body>
 </html>

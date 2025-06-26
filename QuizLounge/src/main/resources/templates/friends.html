@@ -4,47 +4,157 @@
     <meta charset="UTF-8">
     <title>Freunde</title>
     <link rel="stylesheet" href="/css/create_quiz.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: "SF Pro Regular", sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a3fc1;
+        }
+
+        .container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .box {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f2f4ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        form {
+            display: inline;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #786fe0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        button:hover {
+            background-color: #6358c5;
+        }
+
+        .add-form {
+            margin-top: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #4a3fc1;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <h1>Freunde</h1>
 
-<h2>Meine Freunde:</h2>
-<ul>
-    <th:block th:each="friend : ${friends}">
-        <div>
-            <form th:action="@{/home/friends/remove/{id}(id=${friend.id})}" method="post" style="display:inline;">
-                <li th:text="${friend.username}"></li>
-                <input type="hidden" name="_method" value="remove"/>
-                <button type="submit">Entfernen</button>
-            </form>
-        </div>
-    </th:block>
-</ul>
+<div class="container">
+    <!-- Meine Freunde -->
+    <div class="box">
+        <h2>Meine Freunde</h2>
+        <ul>
+            <th:block th:each="friend : ${friends}">
+                <li>
+                    <span th:text="${friend.username}">[Name]</span>
+                    <form th:action="@{/home/friends/remove/{id}(id=${friend.id})}" method="post">
+                        <input type="hidden" name="_method" value="remove"/>
+                        <button type="submit">Entfernen</button>
+                    </form>
+                </li>
+            </th:block>
+        </ul>
+    </div>
 
-<h2>Freund hinzufügen:</h2>
-<form method="post" action="/home/friends">
-    <input type="text" name="username" placeholder="Nutzername eingeben">
-    <button type="submit">Anfrage senden</button>
-</form>
+    <!-- Freundesanfragen -->
+    <div class="box">
+        <h2>Freundesanfragen</h2>
+        <ul>
+            <th:block th:each="request : ${friendRequests}">
+                <th:block th:if="${!request.isAccepted()}">
+                    <li>
+                        <span th:text="${request.sender.username}">[Sender]</span>
+                        <div>
+                            <form method="post" action="/home/friends/accept" style="display:inline;">
+                                <input type="hidden" name="requestId" th:value="${request.id}" />
+                                <button type="submit">Akzeptieren</button>
+                            </form>
+                            <form method="post" action="/home/friends/decline" style="display:inline;">
+                                <input type="hidden" name="requestId" th:value="${request.id}" />
+                                <button type="submit">Ablehnen</button>
+                            </form>
+                        </div>
+                    </li>
+                </th:block>
+            </th:block>
+        </ul>
+    </div>
+</div>
 
-<h2>Freundesanfragen:</h2>
-<ul>
-    <th:block th:each="request : ${friendRequests}">
-        <th:block th:if="${!request.isAccepted()}">
-            <li>
-                Anfrage von <span th:text="${request.getSender().getUsername()}"></span>
-                <form method="post" action="/home/friends/accept">
-                    <input type="hidden" name="requestId" th:value="${request.getId()}" />
-                    <button type="submit">Akzeptieren</button>
-                </form>
-                <form method="post" action="/home/friends/decline">
-                    <input type="hidden" name="requestId" th:value="${request.getId()}" />
-                    <button type="submit">Ablehnen</button>
-                </form>
-            </li>
-        </th:block>
-    </th:block>
-</ul>
-<a th:href="@{/home}">zurück</a>
+<div class="add-form">
+    <h2>Freund hinzufügen</h2>
+    <form method="post" action="/home/friends">
+        <input type="text" name="username" placeholder="Nutzername eingeben" required>
+        <button type="submit">Anfrage senden</button>
+    </form>
+</div>
+
+<a class="back-link" th:href="@{/home}">← zurück zur Startseite</a>
 </body>
 </html>
