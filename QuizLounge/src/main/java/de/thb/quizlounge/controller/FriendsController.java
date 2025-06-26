@@ -47,8 +47,17 @@ public class FriendsController {
         if(sender == null) {
             return "redirect:/login";
         }
+        sender = userService.getUserByName(sender.getUsername());
+        if(sender == null) {
+            return "redirect:/login";
+        }
+
         User receiver = userService.getUserByName(username);
-        if (receiver != null && !sender.equals(receiver) && !(sender.getUsername().equals(username))){
+
+        if(receiver.getFriends().contains(sender)) {
+            throw new RuntimeException("Sender is already friend of receiver.");
+        }
+        if (receiver != null && !(sender.getUsername().equals(username))){
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.setSender(sender);
             friendRequest.setReceiver(receiver);

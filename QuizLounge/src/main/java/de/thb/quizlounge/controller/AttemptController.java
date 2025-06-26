@@ -40,6 +40,10 @@ public class AttemptController {
         if(quiz == null) {
             return "fail";
         }
+        if (quiz.getQuestions().isEmpty()){
+            System.out.println("Hier drin");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No questions available");
+        }
         Attempt attempt = new Attempt();
         attempt.setQuiz(quiz);
         attempt.setUser(user);
@@ -55,8 +59,12 @@ public class AttemptController {
         if(user == null) {
             return "redirect:/login";
         }
+
         user = userService.getUserByName(user.getUsername());
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
+        if(attempt.isFinished()) {
+            return "redirect:/home";
+        }
         if(attempt == null || (user != attempt.getUser())) { return "fail"; }
 
         Quiz quiz = attempt.getQuiz();
@@ -112,8 +120,9 @@ public class AttemptController {
         if (optionalAttempt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "attempt not found");
         }
-        if(rating.compareTo(5) >= 0){
+        if(rating.compareTo(5) > 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "rating is too high");
+
         }
 
         Attempt attempt = optionalAttempt.get();
