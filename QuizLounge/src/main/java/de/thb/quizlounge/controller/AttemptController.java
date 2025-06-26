@@ -112,6 +112,9 @@ public class AttemptController {
         if (optionalAttempt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "attempt not found");
         }
+        if(rating.compareTo(5) >= 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "rating is too high");
+        }
 
         Attempt attempt = optionalAttempt.get();
         //attempt.setRating(rating);
