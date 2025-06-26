@@ -22,12 +22,18 @@ public class QuizController {
     private final UserService userService;
 
     @GetMapping("")
-    public String showQuizzes(Model model, HttpSession session) {
+    public String showQuizzes(@RequestParam(value = "category", required = false) String category, Model model, HttpSession session) {
+        List<Quiz> quizzes;
+
+        if(category != null) {
+            quizzes = quizService.getQuizzesByCategory(category);
+            model.addAttribute("selectedCategory", category);
+        } else quizzes = quizService.getAllQuizzes();
+
+        model.addAttribute("quizzes", quizzes);
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
-        List<Quiz> quizzes = quizService.getAllQuizzes();
-        model.addAttribute("quizzes", quizzes);
         return "quizzes";
     }
 
