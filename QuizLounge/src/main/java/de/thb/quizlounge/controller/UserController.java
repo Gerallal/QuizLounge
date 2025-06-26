@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
@@ -20,7 +21,6 @@ public class UserController {
 
     @PostMapping("register")
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String repeatedPassword, Model model){
-
         if(password.equals(repeatedPassword)){
             if(userService.getUserByName(username) != null) {
                 model.addAttribute("statusText", "statusText");
@@ -51,18 +51,32 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        Model model,
+                        HttpSession session,
+                        HttpServletRequest request) {
+
+        // Alte Session beenden
+        session.invalidate();
+
+        // Neue Session anlegen
+        HttpSession newSession = request.getSession(true);
+
+        // Benutzerprüfung
         User currentUser = userService.getUserByName(username);
-        if(currentUser == null) {
-            return "login";
+        if (currentUser == null) {
+            return "login"; // Benutzer nicht gefunden
         }
-        if(currentUser.getPassword().equals(password)) {
-            model.addAttribute("user", currentUser);
-            session.setAttribute("user", currentUser);
-            session.setAttribute("userId", currentUser.getId());
+
+        if (currentUser.getPassword().equals(password)) {
+            // Neue Session verwenden!
+            newSession.setAttribute("user", currentUser);
+            newSession.setAttribute("userId", currentUser.getId());
             return "redirect:/home";
         }
-        return "login";
+
+        return "login"; // Passwort falsch
     }
 
     @GetMapping("/home")
