@@ -1,29 +1,113 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Meine Quizzes</title>
+    <meta charset="UTF-8">
+    <title>Quiz lösen</title>
+    <link rel="stylesheet" href="/css/create_quiz.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #4a3fc1;
+            margin-bottom: 30px;
+        }
+
+        .quiz-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .answer-option {
+            margin-bottom: 5px;
+            display: block;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .submit-button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #786fe0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #5e55c2;
+        }
+
+        .back-link {
+            margin-top: 25px;
+            text-decoration: none;
+            color: #4a3fc1;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>Quiz lösen!</h1>
 
+<h1 th:text="${quiz.title}">Quiz-Titel</h1>
 
-<ul>
-    <span th:text="${quiz.title}"></span>
-    <form action="" method="post">
-        <tr th:each="question : ${quiz.questions}">
-            <span th:text="${question.questionname}"></span><br>
-            <input type="radio" th:id="${question.answer1}" th:name="${question.questionname}" th:value="${question.answer1}">
-            <label th:for="${question.answer1}"><span th:text="${question.answer1}"></span></label><br>
-            <input type="radio" th:id="${question.answer2}" th:name="${question.questionname}" th:value="${question.answer2}">
-            <label th:for="${question.answer2}"><span th:text="${question.answer2}"></span></label><br>
-            <input type="radio" th:id="${question.answer3}" th:name="${question.questionname}" th:value="${question.answer3}">
-            <label th:for="${question.answer3}"><span th:text="${question.answer3}"></span></label><br>
-            <input type="radio" th:id="${question.answer4}" th:name="${question.questionname}" th:value="${question.answer4}">
-            <label th:for="${question.answer4}"><span th:text="${question.answer4}"></span></label><br>
-        </tr>
-        <input type="submit">
+<div class="quiz-container">
+    <form method="post" th:action="@{/quizzes/solvequiz/{id}(id=${quiz.id})}">
+        <div th:each="question : ${quiz.questions}" class="question-block">
+            <div class="question-title" th:text="${question.questionname}">Fragetext</div>
+
+            <label class="answer-option">
+                <input type="radio" th:name="${question.id}" th:value="${question.answer1}" required>
+                <span th:text="${question.answer1}"></span>
+            </label>
+            <label class="answer-option">
+                <input type="radio" th:name="${question.id}" th:value="${question.answer2}">
+                <span th:text="${question.answer2}"></span>
+            </label>
+            <label class="answer-option">
+                <input type="radio" th:name="${question.id}" th:value="${question.answer3}">
+                <span th:text="${question.answer3}"></span>
+            </label>
+            <label class="answer-option">
+                <input type="radio" th:name="${question.id}" th:value="${question.answer4}">
+                <span th:text="${question.answer4}"></span>
+            </label>
+        </div>
+
+        <button type="submit" class="submit-button">Abschicken</button>
     </form>
-</ul>
-<a th:href="@{/quizzes/ql}">zurück</a>
+</div>
+
+<a class="back-link" th:href="@{/quizzes/ql}">← zurück zur Auswahl</a>
+
 </body>
 </html>

@@ -1,29 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <title>Versuche</title>
     <style>
-        table, th, td {
-            border: 1px solid;
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a3fc1;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #786fe0;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f6ff;
+        }
+
+        tr:hover {
+            background-color: #e6e9ff;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #4a3fc1;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
     </style>
-    <meta charset="UTF-8">
-    <title>Attempts</title>
 </head>
 <body>
+
+<h1>Quizversuche</h1>
+
 <table>
+    <thead>
     <tr>
         <th>Name</th>
         <th>Score</th>
         <th>Benötigte Zeit</th>
     </tr>
-
-<tr th:each="attempt : ${attempts}" th:if="${attempt.finished}">
-
-    <td><a th:text="${attempt.user.username}"></a></td>
-    <td> <a th:text="${attempt.getScoreInPercent}"></a></td>
-    <td> <a th:text="${attempt.duration.getSeconds()  + 's'}"></a></td>
-</tr>
+    </thead>
+    <tbody>
+    <tr th:each="attempt : ${attempts}" th:if="${attempt.finished}">
+        <td><span th:text="${attempt.user.username}">Max</span></td>
+        <td><span th:text="${attempt.getScoreInPercent + '%'}">100%</span></td>
+        <td><span th:text="${attempt.duration.getSeconds() + 's'}">12s</span></td>
+    </tr>
+    </tbody>
 </table>
-<a th:href="@{/home}">zurück</a>
+
+<a class="back-link" th:href="@{/home}">← zurück zur Startseite</a>
+
 </body>
 </html>

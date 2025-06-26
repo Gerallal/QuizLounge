@@ -1,23 +1,120 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Quiz bearbeiten</title>
   <link rel="stylesheet" href="/css/create_quiz.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    .edit-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4a3fc1;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #786fe0;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #6358c5;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #4a3fc1;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+
+<div class="edit-container">
   <h1>Quiz bearbeiten</h1>
 
   <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" th:object="${quiz}" method="post">
     <label for="title">Titel:</label>
-    <input type="text" id="title" th:field="*{title}" required/><br><br>
+    <input type="text" id="title" th:field="*{title}"/>
+
+    <label for="category">Kategorie:</label>
+    <select id="category" th:field="*{category}" required>
+      <option value="" disabled selected>Kategorie wählen</option>
+      <option value="Mathematik">Mathematik</option>
+      <option value="Deutsch">Deutsch</option>
+      <option value="Englisch">Englisch</option>
+      <option value="Biologie">Biologie</option>
+      <option value="Chemie">Chemie</option>
+      <option value="Physik">Physik</option>
+      <option value="Informatik">Informatik</option>
+      <option value="Geographie">Geographie</option>
+      <option value="Geschichte">Geschichte</option>
+      <option value="Politik">Politik</option>
+    </select>
 
     <label for="description">Beschreibung:</label>
-    <textarea id="description" th:field="*{description}"></textarea><br><br>
+    <textarea id="description" th:field="*{description}" placeholder="Was erwartet die Spieler?"></textarea>
 
     <button type="submit">Speichern</button>
-    <!-- author kann nicht verändert werden -->
   </form>
-  <a th:href="@{/quizzes/my}">zurück</a>
+
+  <a class="back-link" th:href="@{/quizzes/my}">← zurück zur Übersicht</a>
+</div>
+
 </body>
 </html>

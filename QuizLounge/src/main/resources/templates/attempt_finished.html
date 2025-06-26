@@ -1,34 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Herzlichen Glückwunsch</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4a3fc1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #4a3fc1;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #786fe0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6358c5;
+        }
+    </style>
 </head>
 <body>
-Du hast das Quiz:
-<span th:text="${attempt.quiz.title}"></span>
-erledigt und hattest
-<td>
-    <th:block th:if="${attempt.getNumberOfRightAnswers() eq 1}">eine richtige Antwort.</th:block>
-    <th:block th:unless="${attempt.getNumberOfRightAnswers() eq 1}"><span th:text="${attempt.getNumberOfRightAnswers()}"></span> richtige Antworten.</th:block><br>
+
+<div class="container">
+    <h1>🎉 Herzlichen Glückwunsch!</h1>
+    <p>Du hast das Quiz <strong><span th:text="${attempt.quiz.title}">[Quiztitel]</span></strong> abgeschlossen.</p>
+
+    <p>
+        <th:block th:if="${attempt.getNumberOfRightAnswers() eq 1}">
+            Du hattest <strong>eine richtige Antwort.</strong>
+        </th:block>
+        <th:block th:unless="${attempt.getNumberOfRightAnswers() eq 1}">
+            Du hattest <strong><span th:text="${attempt.getNumberOfRightAnswers()}">0</span> richtige Antworten.</strong>
+        </th:block>
+    </p>
+
     <a th:href="@{/quizzes/attempts/{id}(id=${attempt.quiz.id})}">
-       Schau dir an, wie andere abgeschnitten haben.</a>
-</td>
-<h3>Wie bewertest du das Quiz?</h3>
-<form method="post" th:action="@{/quizzes/feedback/{quizId}(quizId=${attempt.quiz.id})}">
-    <input type="hidden" name="quizId" th:value="${attempt.quiz.id}" />
+        ➤ Schau dir an, wie andere abgeschnitten haben
+    </a>
 
-    <label for="rating">Bewertung:</label><br>
-    <select name="rating" id="rating" required>
-        <option value="">-- Bitte wählen --</option>
-        <option value="1">1 Stern</option>
-        <option value="2">2 Sterne</option>
-        <option value="3">3 Sterne</option>
-        <option value="4">4 Sterne</option>
-        <option value="5">5 Sterne</option>
-    </select><br>
+    <form method="post" th:action="@{/quizzes/feedback/{quizId}(quizId=${attempt.quiz.id})}">
+        <input type="hidden" name="quizId" th:value="${attempt.quiz.id}" />
 
-    <button type="submit" style="margin-top:10px;">Bewertung senden</button>
-</form>
+        <label for="rating">Wie bewertest du das Quiz?</label><br>
+        <select name="rating" id="rating" required>
+            <option value="">-- Bitte wählen --</option>
+            <option value="1">1 Stern</option>
+            <option value="2">2 Sterne</option>
+            <option value="3">3 Sterne</option>
+            <option value="4">4 Sterne</option>
+            <option value="5">5 Sterne</option>
+        </select>
+
+        <button type="submit">Bewertung senden</button>
+    </form>
+</div>
+
 </body>
 </html>

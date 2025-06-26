@@ -23,7 +23,7 @@ public class QuestionController {
     @PostMapping("/create/{quizId}")
     public String createQuiz(@PathVariable long quizId, @RequestParam String questionname, @RequestParam String answer1,
                              @RequestParam String answer2, @RequestParam String answer3, @RequestParam String answer4,
-                             @RequestParam String rightAnswer, HttpSession session) {
+                             @RequestParam int rightAnswer, HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
@@ -62,7 +62,9 @@ public class QuestionController {
     }
 
     @PostMapping("/edit/{questionId}")
-    public String updateQuestion(@PathVariable long questionId, @ModelAttribute Question question, HttpSession session) {
+    public String updateQuestion(@PathVariable long questionId,
+                                 @ModelAttribute Question question,
+                                 HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }

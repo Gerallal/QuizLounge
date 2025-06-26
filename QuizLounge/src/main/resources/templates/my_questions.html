@@ -1,57 +1,193 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Fragen</title>
+  <title>Fragen verwalten</title>
   <link rel="stylesheet" href="/css/create_quiz.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1, h3 {
+      text-align: center;
+      color: #4a3fc1;
+    }
+
+    .question-list {
+      width: 100%;
+      max-width: 900px;
+      margin-top: 30px;
+    }
+
+    .question-item {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .question-text {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .answer {
+      margin-left: 15px;
+      color: #555;
+    }
+
+    .button-form {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
+    .button-form button {
+      padding: 6px 12px;
+      font-size: 14px;
+      background-color: #786fe0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-form button:hover {
+      background-color: #5f55c4;
+    }
+
+    .form-section {
+      width: 100%;
+      max-width: 600px;
+      background-color: white;
+      padding: 30px;
+      margin-top: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .form-section label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .form-section input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    .form-section .answer-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .form-section input[type="radio"] {
+      transform: scale(1.3);
+      cursor: pointer;
+    }
+
+    .form-section button[type="submit"] {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #786fe0;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-section button:hover {
+      background-color: #6358c5;
+    }
+
+    .back-link {
+      margin-top: 30px;
+      color: #4a3fc1;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-  <body>
-    <h1 th:text="${quiz.title}"></h1>
-    <h3 th:text="${quiz.description}"></h3>
-    <ul style="padding-left: 0; margin: 0;">
-      <li th:each="question : ${quiz.questions}" style="list-style: none;">
-        <div class="question-row">
-          <div class="question-text" th:text="${question.questionname}"></div>
+<body>
 
-          <div class="answer" th:text="${question.answer1}"></div>
-          <div class="answer" th:text="${question.answer2}"></div>
-          <div class="answer" th:text="${question.answer3}"></div>
-          <div class="answer" th:text="${question.answer4}"></div>
+<h1 th:text="${quiz.title}">Titel</h1>
+<h3 th:text="${quiz.description}">Beschreibung</h3>
 
-          <form class="button-form" th:action="@{/questions/edit/{questionId}(questionId=${question.id})}" method="get">
-            <button type="submit">bearbeiten</button>
-          </form>
+<div class="question-list">
+  <div th:each="question : ${quiz.questions}" class="question-item">
+    <div class="question-text" th:text="${question.questionname}">Fragetext</div>
+    <div class="answer" th:text="'1. ' + ${question.answer1}"></div>
+    <div class="answer" th:text="'2. ' + ${question.answer2}"></div>
+    <div class="answer" th:text="'3. ' + ${question.answer3}"></div>
+    <div class="answer" th:text="'4. ' + ${question.answer4}"></div>
 
-          <form class="button-form" th:action="@{/questions/delete/{questionId}(questionId=${question.id})}" method="post">
-            <button type="submit">löschen</button>
-          </form>
-        </div>
-      </li>
-    </ul>
-    <br>
-    <!-- Formular zur Erstellung einer neuen Notiz -->
-    <form th:action="@{/questions/create/{quizId}(quizId=${quiz.id})}" method="post">
-      <label>Frage:</label>
-      <input type="text" name="questionname" required>
+    <div class="answer" style="margin-top: 8px; font-weight: bold; color: green;">
+      Richtige Antwort: <span th:text="${question['answer' + question.rightAnswer]}"></span>
+    </div>
 
-      <label>Antwort 1:</label>
-      <input type="text" name="answer1" required>
-
-      <label>Antwort 2:</label>
-      <input type="text" name="answer2" required>
-
-      <label>Antwort 3:</label>
-      <input type="text" name="answer3" required>
-
-      <label>Antwort 4:</label>
-      <input type="text" name="answer4" required>
-
-      <label>Richtige Antwort:</label>
-      <input type="text" name="rightAnswer" required>
-
-      <button type="submit">Frage hinzufügen</button>
+    <form class="button-form" th:action="@{/questions/edit/{questionId}(questionId=${question.id})}" method="get">
+      <button type="submit">bearbeiten</button>
     </form>
-    <br>
-    <a th:href="@{/quizzes/my}">zurück</a>
-  </body>
+
+    <form class="button-form" th:action="@{/questions/delete/{questionId}(questionId=${question.id})}" method="post">
+      <button type="submit">löschen</button>
+    </form>
+  </div>
+</div>
+
+<div class="form-section">
+  <form th:action="@{/questions/create/{quizId}(quizId=${quiz.id})}" method="post">
+    <label>Frage:</label>
+    <input type="text" name="questionname" required>
+
+    <label>Antworten:</label>
+
+    <div class="answer-group">
+      <input type="radio" name="rightAnswer" value="1" required>
+      <input type="text" name="answer1" placeholder="Antwort 1" required>
+    </div>
+    <div class="answer-group">
+      <input type="radio" name="rightAnswer" value="2">
+      <input type="text" name="answer2" placeholder="Antwort 2" required>
+    </div>
+    <div class="answer-group">
+      <input type="radio" name="rightAnswer" value="3">
+      <input type="text" name="answer3" placeholder="Antwort 3" required>
+    </div>
+    <div class="answer-group">
+      <input type="radio" name="rightAnswer" value="4">
+      <input type="text" name="answer4" placeholder="Antwort 4" required>
+    </div>
+
+    <button type="submit">Frage hinzufügen</button>
+  </form>
+</div>
+
+<a class="back-link" th:href="@{/quizzes/my}">← zurück zur Übersicht</a>
+
+</body>
 </html>

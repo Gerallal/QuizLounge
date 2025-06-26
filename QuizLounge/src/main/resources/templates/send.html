@@ -1,27 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quiz senden an:</title>
+    <title>Quiz senden an</title>
     <link rel="stylesheet" href="/css/create_quiz.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #4a3fc1;
+            margin-bottom: 20px;
+        }
+
+        .friend-list {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .friend-item {
+            background-color: white;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .friend-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .send-button {
+            padding: 8px 14px;
+            font-size: 14px;
+            background-color: #786fe0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: #5c55c2;
+        }
+
+        .back-link {
+            margin-top: 30px;
+            color: #4a3fc1;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Meine Freunde:</h2>
-    <ul>
-        <li th:each="friend : ${friends}">
-            <span th:text="${friend.username}"></span>
 
-            <!-- POST-Formular mit CSRF-Token -->
-            <form th:action="@{/quizzes/transmit/{id}(id=${quizId})}"
-                  method="post"
-                  style="display:inline;">
+<h2>Quiz senden an:</h2>
 
-                <input type="hidden" name="username" th:value="${friend.username}">
+<div class="friend-list">
+    <div class="friend-item" th:each="friend : ${friends}">
+        <span class="friend-name" th:text="${friend.username}">Nutzername</span>
 
-                <button type="submit">senden</button>
-            </form>
-        </li>
-    </ul>
-    <a th:href="@{/quizzes/my}">zurück</a>
+        <form th:action="@{/quizzes/transmit/{id}(id=${quizId})}" method="post" style="margin: 0;">
+            <input type="hidden" name="username" th:value="${friend.username}">
+            <button type="submit" class="send-button">Senden</button>
+        </form>
+    </div>
+</div>
+
+<a class="back-link" th:href="@{/quizzes/my}">← zurück zu meinen Quizzes</a>
+
 </body>
 </html>

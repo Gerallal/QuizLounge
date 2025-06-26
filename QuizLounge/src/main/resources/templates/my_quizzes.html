@@ -1,33 +1,142 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
   <title>Meine Quizzes</title>
   <link rel="stylesheet" href="/css/create_quiz.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #4a3fc1;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .quiz-list {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .quiz-item {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quiz-header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #777;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .quiz-actions form {
+      display: inline;
+    }
+
+    .quiz-actions button {
+      padding: 6px 12px;
+      font-size: 14px;
+      background-color: #786fe0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .quiz-actions button:hover {
+      background-color: #5e55c2;
+    }
+
+    .new-quiz-btn {
+      padding: 10px 20px;
+      margin-bottom: 30px;
+      background-color: #4a3fc1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .new-quiz-btn:hover {
+      background-color: #392fa0;
+    }
+
+    .back-link {
+      margin-top: 30px;
+      color: #4a3fc1;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h1>Meine Quizzes</h1>
 
-  <form action="/quizzes/create" method="get">
-    <button type="submit">+ Neues Quiz erstellen</button>
-  </form>
+<h1>Meine Quizzes</h1>
 
-  <ul>
-    <li th:each="quiz : ${quizzes}">
+<form action="/quizzes/create" method="get">
+  <button type="submit" class="new-quiz-btn">+ Neues Quiz erstellen</button>
+</form>
+
+<div class="quiz-list">
+  <div class="quiz-item" th:each="quiz : ${quizzes}">
+    <div class="quiz-header">
       <a th:href="@{'/quizzes/my/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
-      <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
-      <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" method="get" style="display:inline;">
-        <button type="submit">bearbeiten</button>
-      </form>
-      <form th:action="@{/quizzes/send/{id}(id=${quiz.id})}" method="get" style="display:inline;">
-        <button type="submit">an Freunde senden</button>
+    </div>
+    <div class="quiz-meta">
+      <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'">⭐ 4.5 / 5</span>
+    </div>
+    <div class="quiz-actions">
+      <form th:action="@{/quizzes/edit/{id}(id=${quiz.id})}" method="get">
+        <button type="submit">Bearbeiten</button>
       </form>
 
-      <form th:action="@{/quizzes/delete/{id}(id=${quiz.id})}" method="post" style="display:inline;">
+      <form th:action="@{/quizzes/send/{id}(id=${quiz.id})}" method="get">
+        <button type="submit">An Freunde senden</button>
+      </form>
+
+      <form th:action="@{/quizzes/delete/{id}(id=${quiz.id})}" method="post">
         <input type="hidden" name="_method" value="delete"/>
         <button type="submit" onclick="return confirm('Wirklich löschen?')">Löschen</button>
       </form>
-    </li>
-  </ul>
-  <a th:href="@{/home}">zurück</a>
+    </div>
+  </div>
+</div>
+
+<a class="back-link" th:href="@{/home}">← zurück zur Startseite</a>
+
 </body>
 </html>

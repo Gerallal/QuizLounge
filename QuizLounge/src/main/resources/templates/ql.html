@@ -1,33 +1,121 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Quizzes lösen</title>
+    <meta charset="UTF-8">
+    <title>Quiz lösen!</title>
     <link rel="stylesheet" href="/css/create_quiz.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3e8ff, #d3f1ff);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #4a3fc1;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            margin-top: 40px;
+            color: #333;
+        }
+
+        .quiz-list {
+            width: 100%;
+            max-width: 900px;
+            margin-top: 10px;
+        }
+
+        .quiz-item {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .quiz-meta {
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .quiz-meta b {
+            color: #4a3fc1;
+        }
+
+        .solve-button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #786fe0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .solve-button:hover {
+            background-color: #5e55c2;
+        }
+
+        .back-link {
+            margin-top: 40px;
+            text-decoration: none;
+            color: #4a3fc1;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>Quiz lösen!</h1>
-<h3>Meine Quizzes</h3>
-<ul>
-    <li th:each="quiz : ${myQuizzes}">
-        <a th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
-        <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
-        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post" style="display:inline;">
-            <input type="hidden" name="_method" value="solve"/>
-        </form>
-    </li>
-</ul>
-<h3>An mich gesendete Quizzes</h3>
-<ul>
-    <li th:each="quiz : ${quizzes}">
-        <a th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
-        <span> von <b th:text="${quiz.author.username}">erstellt von: </b></span>
-        <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'"></span>
 
-        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post" style="display:inline;">
+<h1>Quiz lösen!</h1>
+
+<h3>Meine Quizzes</h3>
+<div class="quiz-list">
+    <div class="quiz-item" th:each="quiz : ${myQuizzes}">
+        <a class="quiz-title" th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
+        <div class="quiz-meta">
+            <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'">⭐ 0.0 / 5</span>
+        </div>
+        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post">
             <input type="hidden" name="_method" value="solve"/>
-            </form>
-    </li>
-</ul>
-<a th:href="@{/home}">zurück</a>
+            <button type="submit" class="solve-button">Jetzt lösen</button>
+        </form>
+    </div>
+</div>
+
+<h3>An mich gesendete Quizzes</h3>
+<div class="quiz-list">
+    <div class="quiz-item" th:each="quiz : ${quizzes}">
+        <a class="quiz-title" th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
+        <div class="quiz-meta">
+            von <b th:text="${quiz.author.username}">Autor</b> <br>
+            <span th:text="'⭐ ' + ${#numbers.formatDecimal(quiz.averageRating, 1, 1)} + ' / 5'">⭐ 0.0 / 5</span>
+        </div>
+        <form th:action="@{/quizzes/solve/{id}(id=${quiz.id})}" method="post">
+            <input type="hidden" name="_method" value="solve"/>
+            <button type="submit" class="solve-button">Jetzt lösen</button>
+        </form>
+    </div>
+</div>
+
+<a class="back-link" th:href="@{/home}">← zurück zur Startseite</a>
+
 </body>
 </html>
