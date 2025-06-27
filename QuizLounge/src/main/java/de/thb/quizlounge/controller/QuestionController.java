@@ -23,7 +23,7 @@ public class QuestionController {
     @PostMapping("/create/{quizId}")
     public String createQuiz(@PathVariable long quizId, @RequestParam String questionname, @RequestParam String answer1,
                              @RequestParam String answer2, @RequestParam String answer3, @RequestParam String answer4,
-                             @RequestParam int rightAnswer, HttpSession session) {
+                             @RequestParam int rightAnswerValue, HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
@@ -34,8 +34,8 @@ public class QuestionController {
         question.setAnswer2(answer2);
         question.setAnswer3(answer3);
         question.setAnswer4(answer4);
-        if(rightAnswer > 0 && rightAnswer < 5) {
-            switch (rightAnswer) {
+        if(rightAnswerValue > 0 && rightAnswerValue < 5) {
+            switch (rightAnswerValue) {
                 case 1: question.setRightAnswer(answer1); break;
                 case 2: question.setRightAnswer(answer2); break;
                 case 3: question.setRightAnswer(answer3); break;

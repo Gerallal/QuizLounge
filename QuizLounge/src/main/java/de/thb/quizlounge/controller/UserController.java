@@ -36,7 +36,7 @@ public class UserController {
             userService.save(user);
             return "redirect:/login";
         }
-        model.addAttribute("statusText", "statusText");
+        model.addAttribute("statusText", "Passwort nicht identisch");
         return "register";
     }
 
