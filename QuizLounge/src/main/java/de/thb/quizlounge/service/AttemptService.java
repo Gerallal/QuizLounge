@@ -23,6 +23,7 @@ public class AttemptService {
         return attemptRepository.findById(id);
     }
 
+
     public Optional<Attempt> getLatestAttemptByUserAndQuiz(Long userId, Long quizId) {
         return attemptRepository.findTopByUserIdAndQuizIdOrderByEndTimeDesc(userId, quizId);
     }

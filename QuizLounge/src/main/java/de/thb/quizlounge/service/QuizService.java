@@ -44,6 +44,7 @@ public class QuizService {
                 .orElseThrow(() -> new RuntimeException("Quiz nicht gefunden"));
         existing.setTitle(updatedQuiz.getTitle());
         existing.setDescription(updatedQuiz.getDescription());
+        existing.setCategory(updatedQuiz.getCategory());
         quizRepository.save(existing);
     }
     public List<Quiz> getQuizzesByAuthor(User author) {

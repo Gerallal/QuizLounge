@@ -2,6 +2,8 @@ package de.thb.quizlounge.controller;
 
 import de.thb.quizlounge.entity.Quiz;
 import de.thb.quizlounge.entity.User;
+import de.thb.quizlounge.service.AttemptService;
+import de.thb.quizlounge.service.QuestionService;
 import de.thb.quizlounge.service.QuizService;
 import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,8 @@ import java.util.List;
 public class QuizController {
     private final QuizService quizService;
     private final UserService userService;
+    private final QuestionService questionService;
+    private final AttemptService attemptService;
 
     @GetMapping("")
     public String showQuizzes(@RequestParam(value = "category", required = false) String category, Model model, HttpSession session) {
