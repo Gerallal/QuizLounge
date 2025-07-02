@@ -70,7 +70,7 @@ public class QuestionController {
 
     @PostMapping("/edit/{questionId}")
     public String updateQuestion(@PathVariable long questionId,
-                                 @ModelAttribute Question question,
+                                 @ModelAttribute Question question, @RequestParam int rightAnswerValue,
                                  HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
@@ -78,7 +78,7 @@ public class QuestionController {
         Question fullQuestion = questionService.getQuestionById(questionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        questionService.updateQuestion(questionId, question);
+        questionService.updateQuestion(questionId, question, rightAnswerValue);
 
         return "redirect:/quizzes/my/" + fullQuestion.getQuiz().getId();
     }

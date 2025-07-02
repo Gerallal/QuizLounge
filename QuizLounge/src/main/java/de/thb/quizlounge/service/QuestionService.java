@@ -16,7 +16,7 @@ public class QuestionService {
         return questionRepository.findById(id);
     }
 
-    public void updateQuestion(long id, Question updatedQuestion) {
+    public void updateQuestion(long id, Question updatedQuestion, int rightAnswerValue) {
         Question existingQuestion = questionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Notiz nicht gefunden"));
 
@@ -25,8 +25,14 @@ public class QuestionService {
         existingQuestion.setAnswer2(updatedQuestion.getAnswer2());
         existingQuestion.setAnswer3(updatedQuestion.getAnswer3());
         existingQuestion.setAnswer4(updatedQuestion.getAnswer4());
-        existingQuestion.setRightAnswer(updatedQuestion.getRightAnswer());
-
+        if(rightAnswerValue > 0 && rightAnswerValue < 5) {
+            switch (rightAnswerValue) {
+                case 1: existingQuestion.setRightAnswer(existingQuestion.getAnswer1()); break;
+                case 2: existingQuestion.setRightAnswer(existingQuestion.getAnswer2()); break;
+                case 3: existingQuestion.setRightAnswer(existingQuestion.getAnswer3()); break;
+                case 4: existingQuestion.setRightAnswer(existingQuestion.getAnswer4()); break;
+            }
+        }
         questionRepository.save(existingQuestion);
     }
 

@@ -128,20 +128,18 @@
 <div id="sidebar">
     <ul>
         <br><br>
-        <li><a href="#">Startseite</a></li>
-        <li><a href="/quizzes/my">Meine Quizzes</a></li>
+        <li><a href="/home">Startseite</a></li>
+        <li><a href="/quizzes/my">Meine Quizze</a></li>
         <li><a href="/quizzes/ql">Quiz lösen</a></li>
         <li><a href="/home/friends">Freunde</a></li>
-        <li><a href="#">Statistiken</a></li>
+        <!--<li><a href="#">Statistiken</a></li>-->
+        <li class="logout">
+            Eingeloggt als<br>
+            <strong th:text="${user.username}">[Username]</strong><br>
+            <a th:href="@{/login}" style="color: #eee;">Abmelden</a>
+        </li>
     </ul>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-    <div class="logout">
-        Eingeloggt als<br>
-        <strong th:text="${user.username}">[Username]</strong><br>
-        <a th:href="@{/login}" style="color: #eee;">Abmelden</a>
-    </div>
 </div>
 
 <!-- Hauptbereich -->
@@ -164,14 +162,14 @@
         </form>
 
         <form action="/quizzes" method="get">
-            <button type="submit">Quizzes durchsuchen</button>
+            <button type="submit">Quizze durchsuchen</button>
         </form>
 
         <form action="/quizzes/my" method="get">
-            <button type="submit">Meine Quizzes</button>
+            <button type="submit">Meine Quizze</button>
         </form>
 
-        <button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>
+        <!--<button onclick="console.log('Statistiken werden geladen...')">Statistiken</button>-->
     </div>
 </div>
 

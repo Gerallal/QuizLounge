@@ -86,7 +86,7 @@
 
 <h1>Quiz lösen!</h1>
 
-<h3>Meine Quizzes</h3>
+<h3>Meine Quizze</h3>
 <div class="quiz-list">
     <div class="quiz-item" th:each="quiz : ${myQuizzes}">
         <a class="quiz-title" th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>
@@ -100,7 +100,7 @@
     </div>
 </div>
 
-<h3>An mich gesendete Quizzes</h3>
+<h3>An mich gesendete Quizze</h3>
 <div class="quiz-list">
     <div class="quiz-item" th:each="quiz : ${quizzes}">
         <a class="quiz-title" th:href="@{'/quizzes/solve/' + ${quiz.id}}" th:text="${quiz.title}">Quiz-Titel</a>

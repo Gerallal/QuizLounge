@@ -100,25 +100,25 @@
     <label>Antworten:</label>
 
     <div class="answer-group">
-      <input type="radio" name="rightAnswer" value="1"
+      <input type="radio" name="rightAnswerValue" value="1"
              th:checked="${question.rightAnswer == 1}" required>
       <input type="text" name="answer1" th:value="${question.answer1}" required placeholder="Antwort 1">
     </div>
 
     <div class="answer-group">
-      <input type="radio" name="rightAnswer" value="2"
+      <input type="radio" name="rightAnswerValue" value="2"
              th:checked="${question.rightAnswer == 2}">
       <input type="text" name="answer2" th:value="${question.answer2}" required placeholder="Antwort 2">
     </div>
 
     <div class="answer-group">
-      <input type="radio" name="rightAnswer" value="3"
+      <input type="radio" name="rightAnswerValue" value="3"
              th:checked="${question.rightAnswer == 3}">
       <input type="text" name="answer3" th:value="${question.answer3}" required placeholder="Antwort 3">
     </div>
 
     <div class="answer-group">
-      <input type="radio" name="rightAnswer" value="4"
+      <input type="radio" name="rightAnswerValue" value="4"
              th:checked="${question.rightAnswer == 4}">
       <input type="text" name="answer4" th:value="${question.answer4}" required placeholder="Antwort 4">
     </div>
