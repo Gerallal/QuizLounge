@@ -2,6 +2,8 @@ package de.thb.quizlounge.service;
 
 import de.thb.quizlounge.entity.Attempt;
 import de.thb.quizlounge.entity.Question;
+import de.thb.quizlounge.entity.Quiz;
+import de.thb.quizlounge.entity.User;
 import de.thb.quizlounge.repository.AttemptRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class AttemptService {
                 }
             }
         }
-        System.out.println("Correct answers: " + correctAnswers);
+
         attempt.setNumberOfRightAnswers(correctAnswers);
         attempt.setScore(((float) attempt.getNumberOfRightAnswers()) / attempt.getQuiz().getQuestions().size());
         attempt.setFinished(true);
@@ -51,5 +53,15 @@ public class AttemptService {
             attempt.setDuration(Duration.between(attempt.getStartTime(), attempt.getEndTime()));
         }
         return attempt.getDuration();
+    }
+
+    public Attempt startAttempt(Quiz quiz, User user) {
+        Attempt attempt = new Attempt();
+        attempt.setQuiz(quiz);
+        attempt.setUser(user);
+        attempt.setFinished(false);
+        attempt.setStartTime();
+
+        return this.save(attempt);
     }
 }

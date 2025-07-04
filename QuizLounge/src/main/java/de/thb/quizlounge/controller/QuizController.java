@@ -156,14 +156,13 @@ public class QuizController {
             @PathVariable Long id,
             @RequestParam String username,  // Pflichtfeld
             Model model) {
-        // Logik...
-        System.out.println(username);
-        User victim = userService.getUserByName(username);
+
+        User receiver = userService.getUserByName(username);
         Quiz quiz = quizService.getQuizById(id).orElse(null);
-        if(!victim.getQuizes().contains(quiz)) {
-            victim.getQuizes().add(quiz);
-            userService.save(victim);
-        } else return "fail";
+        if(!receiver.getQuizes().contains(quiz)) {
+            receiver.getQuizes().add(quiz);
+            userService.save(receiver);
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already has Quiz.");;
         return "redirect:/home";
     }
 }

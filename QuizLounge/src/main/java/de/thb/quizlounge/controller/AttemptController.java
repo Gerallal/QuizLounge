@@ -32,34 +32,27 @@ public class AttemptController {
     @GetMapping("solve/{id}")
     public String solve(@PathVariable long id, Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        System.out.println("Ich bin hier.");
+
         if(user == null) {
             return "redirect:/login";
         }
         user = userService.getUserByName(user.getUsername());
         Quiz quiz = quizService.getQuizById(id).orElse(null);
         if(quiz == null) {
-            System.out.println("Ich bin hier auch.");
-            return "fail";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No quiz available");
+
         }
         if (quiz.getQuestions().isEmpty()){
-            System.out.println("Hier drin");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No questions available");
         }
-        Attempt attempt = new Attempt();
-        attempt.setQuiz(quiz);
-        attempt.setUser(user);
-        attempt.setFinished(false);
-        attempt.setStartTime();
-        System.out.println(attempt.getStartTime());
-        attempt = attemptService.save(attempt);
+        Attempt attempt = attemptService.startAttempt(quiz, user);
         return "redirect:/quizzes/solvequiz/" + attempt.getId();
     }
 
     @GetMapping("solvequiz/{id}")
     public String solveQuiz(@PathVariable long id, Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        System.out.println("Ich bin in solvequihz.");
+
         if(user == null) {
             return "redirect:/login";
         }
@@ -69,12 +62,13 @@ public class AttemptController {
         if(attempt.isFinished()) {
             return "redirect:/home";
         }
-        if(attempt == null || (user != attempt.getUser())) { return "fail"; }
+        if((user != attempt.getUser())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not belong to Attempt."); }
 
         Quiz quiz = attempt.getQuiz();
 
         if(quiz.getQuestions().isEmpty()) {
-            return "fail";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No questions available");
         }
         model.addAttribute("quiz", quiz);
         model.addAttribute("attempt", attempt);
@@ -82,18 +76,15 @@ public class AttemptController {
     }
 
     @PostMapping("solvequiz/{id}")
-    public String updateFoos(@PathVariable long id, Model model, @RequestParam Map<String,String> allParams, HttpSession session) {
+    public String evaluateAttempt(@PathVariable long id, Model model, @RequestParam Map<String,String> allParams, HttpSession session) {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
-        System.out.println("Ich bin hier.");
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
-        if(allParams == null){return "fail";}
-        /*attempt.evaluate(allParams);
-        attempt.setFinished(true);
-        attempt.setEndTime();
-        attempt.getDuration();
-        attemptService.save(attempt);*/
+        if(allParams == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no answers send");
+        }
+
         attemptService.evaluateAttempt(attempt, allParams);
         Quiz quiz = attempt.getQuiz();
         quiz.getAttempts().add(attempt);
@@ -132,7 +123,7 @@ public class AttemptController {
         }
 
         Attempt attempt = optionalAttempt.get();
-        //attempt.setRating(rating);
+
         attemptService.save(attempt);
 
         Quiz quiz = attempt.getQuiz();
