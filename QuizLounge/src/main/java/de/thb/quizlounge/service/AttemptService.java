@@ -30,7 +30,6 @@ public class AttemptService {
         return attemptRepository.findTopByUserIdAndQuizIdOrderByEndTimeDesc(userId, quizId);
     }
     public void evaluateAttempt(Attempt attempt, Map<String,String> answers) {
-        //answers.get(quiz.getQuestions().get(0).getQuestionname());
         int correctAnswers = 0;
         for (Question question : attempt.getQuiz().getQuestions()) {
             if (answers.get(question.getQuestionname()) != null) {

@@ -84,7 +84,7 @@ public class FriendsController {
     public String acceptFriendRequest(@RequestParam Long requestId, HttpSession session){
         FriendRequest friendRequest = friendRequestService.getRequestById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
-        // friendRequest.setAccepted(true);
+
         User user = (User) session.getAttribute("user");
         if(user == null) {
             return "redirect:/login";

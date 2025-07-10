@@ -72,7 +72,7 @@ public class UserController {
         }
 
         if (currentUser.getPassword().equals(password)) {
-            // Neue Session verwenden!
+            // Neue Session verwenden
             newSession.setAttribute("user", currentUser);
             newSession.setAttribute("userId", currentUser.getId());
             return "redirect:/home";
