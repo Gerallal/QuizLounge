@@ -48,11 +48,10 @@ public class AttemptService {
         attemptRepository.save(attempt);
     }
 
-    public Duration calculateDuration(Attempt attempt) {
+    public void calculateDuration(Attempt attempt) {
         if (attempt.getStartTime() != null && attempt.getEndTime() != null) {
             attempt.setDuration(Duration.between(attempt.getStartTime(), attempt.getEndTime()));
         }
-        return attempt.getDuration();
     }
 
     public Attempt startAttempt(Quiz quiz, User user) {

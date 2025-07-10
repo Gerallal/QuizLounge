@@ -37,21 +37,6 @@ public class FriendRequestService {
         friendRequestRepository.deleteById(id);
     }
 
-    public void acceptFriendRequest(FriendRequest friendRequest){
-        friendRequest.setAccepted(true);
-        User sender = friendRequest.getSender();
-        User receiver = friendRequest.getReceiver();
-        sender.getFriends().add(receiver);
-        receiver.getFriends().add(sender);
-        userRepository.save(sender);
-        userRepository.save(receiver);
-        friendRequestRepository.delete(friendRequest);
-    }
-
-    public void declineFriendRequest(FriendRequest friendRequest){
-        friendRequestRepository.delete(friendRequest);
-    }
-
     @Transactional
     public void deleteFriend(Long userId, Long friendId) {
         User user = userRepository.findById(userId).orElseThrow();

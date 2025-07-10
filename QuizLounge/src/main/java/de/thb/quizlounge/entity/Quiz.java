@@ -18,10 +18,9 @@ public class Quiz {
     private String title;
     private String description;
     private String category;
-    //private String author;
 
     @ManyToOne
-    @JoinColumn(name = "author_id") // Optional: explizite Spalte
+    @JoinColumn(name = "author_id")
     private User author;
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

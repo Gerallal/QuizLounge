@@ -28,12 +28,12 @@ public class FriendsController {
         if(currentUser == null) {
             return "redirect:/login";
         }
-        // Optional: neu aus DB laden, damit Session aktiv ist
+
         User managedUser = userService.getUserById(currentUser.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         List<FriendRequest> friendRequests = friendRequestService.getFriendRequestsByUser(managedUser);
-        List<User> friends = managedUser.getFriends(); // jetzt funktioniert LAZY Loading
+        List<User> friends = managedUser.getFriends();
 
         model.addAttribute("user", managedUser);
         model.addAttribute("friendRequests", friendRequests);
@@ -57,7 +57,7 @@ public class FriendsController {
         if(receiver.getFriends().contains(sender)) {
             throw new RuntimeException("Sender is already friend of receiver.");
         }
-        if (receiver != null && !(sender.getUsername().equals(username))){
+        if (!sender.getUsername().equals(username)){
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.setSender(sender);
             friendRequest.setReceiver(receiver);

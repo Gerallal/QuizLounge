@@ -24,13 +24,14 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/quizzes")
 public class AttemptController {
+
     private final QuizService quizService;
     private final AttemptService attemptService;
     private final UserService userService;
 
 
     @GetMapping("solve/{id}")
-    public String solve(@PathVariable long id, Model model, HttpSession session) {
+    public String solve(@PathVariable long id, HttpSession session) {
         User user = (User) session.getAttribute("user");
 
         if(user == null) {
@@ -59,6 +60,7 @@ public class AttemptController {
 
         user = userService.getUserByName(user.getUsername());
         Attempt attempt = attemptService.findAttemptById(id).orElse(null);
+        assert attempt != null;
         if(attempt.isFinished()) {
             return "redirect:/home";
         }
@@ -85,6 +87,7 @@ public class AttemptController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no answers send");
         }
 
+        assert attempt != null;
         attemptService.evaluateAttempt(attempt, allParams);
         Quiz quiz = attempt.getQuiz();
         quiz.getAttempts().add(attempt);
@@ -96,6 +99,7 @@ public class AttemptController {
     @GetMapping("attempts/{id}")
     public String getAttempt(@PathVariable long id, Model model, HttpSession session) {
         Quiz quiz = quizService.getQuizById(id).orElse(null);
+        assert quiz != null;
         List <Attempt> attempts = quiz.getAttempts();
         attempts.sort(null);
         Collections.reverse(attempts);

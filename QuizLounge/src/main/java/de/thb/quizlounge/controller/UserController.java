@@ -20,7 +20,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("register")
-    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String repeatedPassword, Model model){
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           @RequestParam String repeatedPassword,
+                           Model model){
         if(password.equals(repeatedPassword)){
             if(userService.getUserByName(username) != null) {
                 model.addAttribute("statusText", "statusText");
@@ -32,7 +35,7 @@ public class UserController {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
-            user.setFriends(new ArrayList<User>());
+            user.setFriends(new ArrayList<>());
             userService.save(user);
             return "redirect:/login";
         }
@@ -41,19 +44,18 @@ public class UserController {
     }
 
     @GetMapping("register")
-    public String register(Model model){
+    public String register(){
         return "register";
     }
 
     @GetMapping("login")
-    public String logIn(Model model){
+    public String logIn(){
         return "login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String username,
                         @RequestParam String password,
-                        Model model,
                         HttpSession session,
                         HttpServletRequest request) {
 
@@ -98,7 +100,7 @@ public class UserController {
     }
 
     @PostMapping("/home")
-    public String home(Model model){
+    public String home(){
         return "home";
     }
 

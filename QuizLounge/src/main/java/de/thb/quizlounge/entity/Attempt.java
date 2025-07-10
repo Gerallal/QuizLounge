@@ -39,9 +39,7 @@ public class Attempt implements Comparable {
     }
 
     public String getScoreInPercent() {
-        StringBuilder score = new StringBuilder();
-        score.append((((int)(this.getScore() * 1000))/10f)).append("%");
-        return score.toString();
+        return (((int) (this.getScore() * 1000)) / 10f) + "%";
     }
 
     @Override

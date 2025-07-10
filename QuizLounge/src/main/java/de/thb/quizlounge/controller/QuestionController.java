@@ -62,6 +62,7 @@ public class QuestionController {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
+
         Question question = questionService.getQuestionById(questionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("question", question);
@@ -75,6 +76,7 @@ public class QuestionController {
         if(session.getAttribute("user") == null) {
             return "redirect:/login";
         }
+
         Question fullQuestion = questionService.getQuestionById(questionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

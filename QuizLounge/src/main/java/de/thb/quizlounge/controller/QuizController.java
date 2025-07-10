@@ -2,8 +2,6 @@ package de.thb.quizlounge.controller;
 
 import de.thb.quizlounge.entity.Quiz;
 import de.thb.quizlounge.entity.User;
-import de.thb.quizlounge.service.AttemptService;
-import de.thb.quizlounge.service.QuestionService;
 import de.thb.quizlounge.service.QuizService;
 import de.thb.quizlounge.service.UserService;
 import lombok.AllArgsConstructor;
@@ -22,8 +20,6 @@ import java.util.List;
 public class QuizController {
     private final QuizService quizService;
     private final UserService userService;
-    private final QuestionService questionService;
-    private final AttemptService attemptService;
 
     @GetMapping("")
     public String showQuizzes(@RequestParam(value = "category", required = false) String category, Model model, HttpSession session) {
@@ -83,7 +79,6 @@ public class QuizController {
         return "redirect:/quizzes/my";
     }
 
-
     @PostMapping("/delete/{id}")
     public String deleteQuiz(@PathVariable long id, HttpSession session) {
         if(session.getAttribute("user") == null) {
@@ -93,7 +88,6 @@ public class QuizController {
         return "redirect:/quizzes/my";
     }
 
-    // Zeigt das Bearbeitungsformular
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable long id, Model model, HttpSession session) {
         Quiz quiz = quizService.getQuizById(id)
@@ -154,15 +148,14 @@ public class QuizController {
     @PostMapping("/transmit/{id}")
     public String transmitQuiz(
             @PathVariable Long id,
-            @RequestParam String username,  // Pflichtfeld
-            Model model) {
+            @RequestParam String username) {
 
         User receiver = userService.getUserByName(username);
         Quiz quiz = quizService.getQuizById(id).orElse(null);
         if(!receiver.getQuizes().contains(quiz)) {
             receiver.getQuizes().add(quiz);
             userService.save(receiver);
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already has Quiz.");;
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already has Quiz.");
         return "redirect:/home";
     }
 }
