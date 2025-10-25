@@ -37,6 +37,14 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.18.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
         <!--Database -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,6 +58,7 @@
             <version>9.3.0</version>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
